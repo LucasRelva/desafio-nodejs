@@ -82,7 +82,7 @@ export class ProjectService {
       throw new BadRequestException(`A token is required for this request`);
     }
     token = token.split(' ')[1];
-    let userId;
+    let userId: number;
 
     try {
       const decodedToken = this.jwtService.decode(token);

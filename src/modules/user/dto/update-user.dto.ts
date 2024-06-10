@@ -5,7 +5,6 @@ export class UpdateUserDto {
   @ApiProperty()
   name: string;
   @ApiProperty()
-  @IsEmail
   email: string;
   @ApiProperty()
   password: string;
