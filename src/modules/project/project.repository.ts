@@ -5,7 +5,8 @@ import { CreateProjectDto } from './dto/create-project.dto';
 
 @Injectable()
 export class ProjectRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {
+  }
 
   async getProjects(page: number, pageSize: number): Promise<Project[]> {
     try {

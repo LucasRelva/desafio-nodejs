@@ -11,4 +11,5 @@ import { UserRepository } from '../user/user.repository';
   controllers: [TaskController],
   providers: [TaskService, TaskRepository, PrismaService, JwtService, UserService, UserRepository],
 })
-export class TaskModule {}
+export class TaskModule {
+}

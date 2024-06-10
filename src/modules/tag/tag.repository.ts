@@ -6,7 +6,8 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 
 @Injectable()
 export class TagRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {
+  }
 
   async findAllTags(page: number, pageSize: number): Promise<Tag[]> {
     try {
@@ -24,16 +25,10 @@ export class TagRepository {
 
   async createTag(createTagDto: CreateTagDto): Promise<Tag> {
     try {
-      const { title, taskId } = createTagDto;
-
-      const data: any = { title };
-
-      if (taskId) {
-        data.task = { connect: { id: taskId } };
-      }
-
       return await this.prisma.tag.create({
-        data,
+        data: {
+          title: createTagDto.title,
+        },
       });
     } catch (error) {
       console.error('Error occurred while creating tag:', error);

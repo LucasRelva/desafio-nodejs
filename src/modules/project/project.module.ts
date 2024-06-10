@@ -9,4 +9,5 @@ import { ProjectRepository } from './project.repository';
   controllers: [ProjectController],
   providers: [ProjectService, ProjectRepository, PrismaService, JwtService],
 })
-export class ProjectModule {}
+export class ProjectModule {
+}

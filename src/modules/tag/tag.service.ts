@@ -5,7 +5,8 @@ import { TagRepository } from './tag.repository';
 
 @Injectable()
 export class TagService {
-  constructor(private readonly tagRepository: TagRepository) {}
+  constructor(private readonly tagRepository: TagRepository) {
+  }
 
   async findAll(page: number, size: number) {
     return await this.tagRepository.findAllTags(page, size);

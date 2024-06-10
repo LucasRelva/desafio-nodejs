@@ -8,4 +8,5 @@ import { TagRepository } from './tag.repository';
   controllers: [TagController],
   providers: [TagService, TagRepository, PrismaService],
 })
-export class TagModule {}
+export class TagModule {
+}

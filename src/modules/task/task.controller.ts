@@ -1,21 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { PaginatedTaskDto } from './dto/paginated-task.dto';
-import { ApiTags, ApiBody, ApiResponse, ApiParam, ApiQuery, ApiBearerAuth, ApiBadRequestResponse, ApiNotFoundResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AddTagsDto } from './dto/add-tags.dto';
 import { AddAssigneeDto } from './dto/add-assignee.dto';
 
 @ApiTags('tasks')
 @Controller('tasks')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(private readonly taskService: TaskService) {
+  }
 
   @Post()
   @ApiBody({ type: CreateTaskDto })
   @ApiBearerAuth()
-  @ApiResponse({ type: CreateTaskDto, status: HttpStatus.CREATED, description: 'The task has been successfully created.' })
+  @ApiResponse({
+    type: CreateTaskDto,
+    status: HttpStatus.CREATED,
+    description: 'The task has been successfully created.',
+  })
   @ApiBadRequestResponse({ description: 'Invalid data.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async create(@Body() createTaskDto: CreateTaskDto, @Request() req) {

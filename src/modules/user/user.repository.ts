@@ -5,7 +5,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {
+  }
 
   async getUsers(page: number, pageSize: number): Promise<User[]> {
     try {
@@ -13,7 +14,7 @@ export class UserRepository {
       const offset = (page - 1) * pageSize;
       return await this.prisma.user.findMany({
         take: pageSize,
-        skip: offset
+        skip: offset,
       });
     } catch (error) {
       console.error('Error occurred while fetching users:', error);
@@ -27,8 +28,8 @@ export class UserRepository {
         where: { id },
         include: {
           tasks: true,
-          projects: true
-        }
+          projects: true,
+        },
       });
     } catch (error) {
       console.error('Error occurred while fetching user by ID:', error);

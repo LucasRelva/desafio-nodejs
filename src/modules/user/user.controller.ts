@@ -1,15 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus, UseGuards, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
-  ApiResponse,
-  ApiTags,
   ApiParam,
   ApiQuery,
-  ApiBearerAuth,
-  ApiBadRequestResponse, ApiUnauthorizedResponse,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { SimpleUserDto } from './dto/simple-user.dto';
 import { AuthService } from '../auth/auth.service';
@@ -23,7 +36,8 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-  ) {}
+  ) {
+  }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -37,7 +51,11 @@ export class UserController {
 
   @Post()
   @ApiBody({ type: CreateUserDto })
-  @ApiResponse({ type: SimpleUserDto, status: HttpStatus.CREATED, description: 'The user has been successfully created.' })
+  @ApiResponse({
+    type: SimpleUserDto,
+    status: HttpStatus.CREATED,
+    description: 'The user has been successfully created.',
+  })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid data.' })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Server error.' })
   create(@Body() createUserDto: CreateUserDto) {

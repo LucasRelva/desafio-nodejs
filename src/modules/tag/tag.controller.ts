@@ -1,18 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common';
 import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { ApiTags, ApiBody, ApiResponse, ApiParam, ApiQuery, ApiBearerAuth, ApiBadRequestResponse, ApiNotFoundResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('tags')
 @Controller('tags')
 export class TagController {
-  constructor(private readonly tagService: TagService) {}
+  constructor(private readonly tagService: TagService) {
+  }
 
   @Post()
   @ApiBody({ type: CreateTagDto })
   @ApiBearerAuth()
-  @ApiResponse({ type: CreateTagDto, status: HttpStatus.CREATED, description: 'The tag has been successfully created.' })
+  @ApiResponse({
+    type: CreateTagDto,
+    status: HttpStatus.CREATED,
+    description: 'The tag has been successfully created.',
+  })
   @ApiBadRequestResponse({ description: 'Invalid data.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async create(@Body() createTagDto: CreateTagDto) {

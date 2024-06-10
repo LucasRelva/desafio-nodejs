@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class SimpleUserDto {
   @ApiProperty()
-  id: number
+  id: number;
 
   @ApiProperty()
-  name: string
+  name: string;
 
   @ApiProperty()
-  email: string
+  email: string;
 
   constructor(id: number, name: string, email: string) {
     this.id = id;

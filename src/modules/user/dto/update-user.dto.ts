@@ -3,10 +3,10 @@ import { IsEmail } from 'class-validator';
 
 export class UpdateUserDto {
   @ApiProperty()
-  name: string
+  name: string;
   @ApiProperty()
   @IsEmail
-  email: string
+  email: string;
   @ApiProperty()
-  password: string
+  password: string;
 }

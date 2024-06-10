@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Task, TaskStatus } from '@prisma/client';
+import { Task } from '@prisma/client';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 @Injectable()
 export class TaskRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {
+  }
 
   async findAllTasks(page: number, pageSize: number): Promise<Task[]> {
     try {

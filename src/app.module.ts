@@ -5,11 +5,12 @@ import { TaskModule } from './modules/task/task.module';
 import { TagModule } from './modules/tag/tag.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './prisma.module';
-import { AuthService } from './modules/auth/auth.service';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
-  imports: [UserModule, ProjectModule, TaskModule, TagModule, AuthModule, PrismaModule],
+  imports: [UserModule, ProjectModule, TaskModule, TagModule, AuthModule, PrismaModule, HealthModule],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+}

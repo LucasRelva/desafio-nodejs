@@ -14,7 +14,8 @@ export class TaskService {
     private readonly taskRepository: TaskRepository,
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-  ) {}
+  ) {
+  }
 
   async findAll(page: number, pageSize: number): Promise<PaginatedTaskDto> {
     if (page <= 0) {

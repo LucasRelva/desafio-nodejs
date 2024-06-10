@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsEnum, IsArray, ArrayMinSize } from 'class-validator';
+import { ArrayMinSize, IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { TaskStatus } from '@prisma/client';
 
 export class CreateTaskDto {

@@ -11,14 +11,15 @@ export class ProjectService {
   constructor(
     private projectRepository: ProjectRepository,
     private jwtService: JwtService,
-  ) {}
+  ) {
+  }
 
   async create(createProjectDto: CreateProjectDto, token: string) {
     if (!token) {
       throw new BadRequestException(`A token is required for this request`);
     }
 
-    token = token.split(' ')[1]
+    token = token.split(' ')[1];
     let userId;
 
     try {
@@ -29,7 +30,7 @@ export class ProjectService {
       throw new BadRequestException(`Invalid token format`);
     }
 
-    createProjectDto.creatorId = userId
+    createProjectDto.creatorId = userId;
     return await this.projectRepository.createProject(createProjectDto);
   }
 
@@ -80,12 +81,12 @@ export class ProjectService {
     if (!token) {
       throw new BadRequestException(`A token is required for this request`);
     }
-    token = token.split(' ')[1]
+    token = token.split(' ')[1];
     let userId;
 
     try {
       const decodedToken = this.jwtService.decode(token);
-       userId = decodedToken.sub;
+      userId = decodedToken.sub;
 
     } catch (error) {
       throw new BadRequestException(`Invalid token format`);

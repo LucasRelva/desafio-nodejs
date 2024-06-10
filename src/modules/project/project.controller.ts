@@ -1,20 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { PaginatedProjectDto } from './dto/paginated-project.dto';
 import { AddMembersDto } from './dto/add-members.dto';
-import { ApiTags, ApiBody, ApiResponse, ApiParam, ApiQuery, ApiBearerAuth, ApiBadRequestResponse, ApiNotFoundResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('projects')
 @Controller('projects')
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(private readonly projectService: ProjectService) {
+  }
 
   @Post()
   @ApiBody({ type: CreateProjectDto })
   @ApiBearerAuth()
-  @ApiResponse({ type: CreateProjectDto, status: HttpStatus.CREATED, description: 'The project has been successfully created.' })
+  @ApiResponse({
+    type: CreateProjectDto,
+    status: HttpStatus.CREATED,
+    description: 'The project has been successfully created.',
+  })
   @ApiBadRequestResponse({ description: 'Invalid data.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async create(@Body() createProjectDto: CreateProjectDto, @Request() req) {

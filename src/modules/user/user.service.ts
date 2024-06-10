@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
@@ -12,10 +12,10 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const userFound = await this.userRepository.getUserByEmail(createUserDto.email)
+    const userFound = await this.userRepository.getUserByEmail(createUserDto.email);
 
     if (userFound) {
-      throw new BadRequestException(userFound.email, "There is already a user with this email");
+      throw new BadRequestException(userFound.email, 'There is already a user with this email');
     }
 
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
@@ -26,12 +26,12 @@ export class UserService {
 
   async findAll(page: number, size: number): Promise<PaginatedUserDto> {
     if (page <= 0) {
-      throw new BadRequestException(page, "Invalid page number");
+      throw new BadRequestException(page, 'Invalid page number');
     }
 
     const response = await this.userRepository.getUsers(page, size);
     let users = response.map(user => {
-      const { password, ...userWithoutPassword } = user
+      const { password, ...userWithoutPassword } = user;
       return userWithoutPassword;
     });
 
@@ -78,12 +78,12 @@ export class UserService {
   }
 
   async getUserByEmail(email: string) {
-    const userFound = await this.userRepository.getUserByEmail(email)
+    const userFound = await this.userRepository.getUserByEmail(email);
 
     if (!userFound) {
-      throw new NotFoundException("User with email does not exist");
+      throw new NotFoundException('User with email does not exist');
     }
 
-    return userFound
+    return userFound;
   }
 }

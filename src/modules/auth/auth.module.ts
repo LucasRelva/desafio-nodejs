@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
@@ -11,7 +11,7 @@ import process from 'node:process';
 
 @Module({
   imports: [
-    PassportModule.register(undefined),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     PrismaModule,
     JwtModule.register({
       secret: process.env.SECRET,
@@ -21,4 +21,5 @@ import process from 'node:process';
   providers: [AuthService, UserService, UserRepository, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule {
+}
