@@ -24,8 +24,16 @@ export class TagRepository {
 
   async createTag(createTagDto: CreateTagDto): Promise<Tag> {
     try {
+      const { title, taskId } = createTagDto;
+
+      const data: any = { title };
+
+      if (taskId) {
+        data.task = { connect: { id: taskId } };
+      }
+
       return await this.prisma.tag.create({
-        data: createTagDto,
+        data,
       });
     } catch (error) {
       console.error('Error occurred while creating tag:', error);
