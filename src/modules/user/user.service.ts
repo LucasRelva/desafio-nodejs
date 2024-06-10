@@ -25,10 +25,18 @@ export class UserService {
   }
 
   async findAll(page: number, size: number): Promise<PaginatedUserDto> {
+    if (page <= 0) {
+      throw new BadRequestException(page, "Invalid page number");
+    }
+
     const response = await this.userRepository.getUsers(page, size);
+    let users = response.map(user => {
+      const { password, ...userWithoutPassword } = user
+      return userWithoutPassword;
+    });
 
     return {
-      users: response,
+      users: users,
       currentPage: page,
       pageSize: response.length,
     };
@@ -41,7 +49,9 @@ export class UserService {
       throw new NotFoundException(`User with id ${id} not found`);
     }
 
-    return user;
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -51,7 +61,10 @@ export class UserService {
       throw new NotFoundException(`User with id ${id} not found`);
     }
 
-    return await this.userRepository.updateUser(id, updateUserDto);
+    const updatedUser = await this.userRepository.updateUser(id, updateUserDto);
+    const { password, ...userWithoutPassword } = updatedUser;
+
+    return userWithoutPassword;
   }
 
   async remove(id: number) {
@@ -62,5 +75,15 @@ export class UserService {
     }
 
     return await this.userRepository.deleteUser(id);
+  }
+
+  async getUserByEmail(email: string) {
+    const userFound = await this.userRepository.getUserByEmail(email)
+
+    if (!userFound) {
+      throw new NotFoundException("User with email does not exist");
+    }
+
+    return userFound
   }
 }

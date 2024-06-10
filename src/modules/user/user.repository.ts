@@ -9,10 +9,11 @@ export class UserRepository {
 
   async getUsers(page: number, pageSize: number): Promise<User[]> {
     try {
+      pageSize = parseInt(pageSize as any, 10);
       const offset = (page - 1) * pageSize;
       return await this.prisma.user.findMany({
-        skip: offset,
         take: pageSize,
+        skip: offset
       });
     } catch (error) {
       console.error('Error occurred while fetching users:', error);
@@ -24,6 +25,10 @@ export class UserRepository {
     try {
       return await this.prisma.user.findUnique({
         where: { id },
+        include: {
+          tasks: true,
+          projects: true
+        }
       });
     } catch (error) {
       console.error('Error occurred while fetching user by ID:', error);
