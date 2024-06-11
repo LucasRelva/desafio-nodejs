@@ -22,7 +22,7 @@ export class ProjectService {
     }
 
     token = token.split(' ')[1];
-    let userId;
+    let userId: number;
 
     try {
       const decodedToken = this.jwtService.decode(token);
@@ -91,10 +91,7 @@ export class ProjectService {
   }
 
   async addMembers(projectId: number, addMembersDto: AddMembersDto, token: string) {
-    if (!token) {
-      this.logger.error('A token is required for this request');
-      throw new BadRequestException(`A token is required for this request`);
-    }
+    this.validateToken(token);
 
     token = token.split(' ')[1];
     let userId: number;
@@ -121,5 +118,12 @@ export class ProjectService {
 
     await this.projectRepository.addMembers(projectId, addMembersDto.memberIds);
     this.logger.log(`Members added to project ${projectId} successfully`);
+  }
+
+  private validateToken(token: string) {
+    if (!token) {
+      this.logger.error('A token is required for this request');
+      throw new BadRequestException(`A token is required for this request`);
+    }
   }
 }

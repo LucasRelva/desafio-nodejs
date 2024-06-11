@@ -1,75 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# NestJS Project Management App
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is a project management application built with NestJS. The app provides endpoints to manage users, projects, tasks, and tags. Authentication is handled using JWT tokens.
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- User management: Create, update, delete, and list users.
+- Project management: Create, update, delete, and list projects. Add members to projects.
+- Task management: Create, update, delete, and list tasks. Add tags and assignees to tasks.
+- Tag management: Create, update, delete, and list tags.
+- Authentication: Secure endpoints with JWT tokens.
 
-## Installation
+## Logging
 
-```bash
-$ npm install
-```
+Logs are saved in the `logs` directory. Both successful operations and errors are logged.
 
-## Running the app
+## Authentication
 
-```bash
-# development
-$ npm run start
+Some endpoints require a JWT token for authentication. You can obtain a token by logging in with the `/user/login` endpoint. Use the token in the `Authorization` header as `Bearer <token>` for subsequent requests.
 
-# watch mode
-$ npm run start:dev
+## Running the Application
 
-# production mode
-$ npm run start:prod
-```
+To run the application, you need Docker and Docker Compose installed on your machine. Follow the steps below:
 
-## Test
+1. **Start the application using Docker Compose:**
+   ```bash
+   docker-compose up
+   ```
 
-```bash
-# unit tests
-$ npm run test
+2. **Access the application:**
+   The application will be accessible at `http://localhost:3000`.
 
-# e2e tests
-$ npm run test:e2e
+3. **Prisma Seed Command**
+   To seed the database with sample data, you can run the following command when the application starts:
+   ```bash
+   npx prisma db seed
+   ```
+   This command will populate the database with sample data. You can choose to run it if you want to have some initial data in your application.
 
-# test coverage
-$ npm run test:cov
-```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If
-you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API Documentation
 
-## Stay in touch
+The documentation for the endpoints can be found at `http://localhost:3000/api-docs`.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Endpoints
 
-## License
+### User Endpoints
 
-Nest is [MIT licensed](LICENSE).
+- `POST /user/login`: Log in to obtain a JWT token.
+- `POST /user`: Create a new user.
+- `GET /user`: Get a paginated list of users (requires authentication).
+- `GET /user/:id`: Get a user by ID (requires authentication).
+- `PATCH /user/:id`: Update a user by ID (requires authentication).
+- `DELETE /user/:id`: Delete a user by ID (requires authentication).
+
+### Project Endpoints
+
+- `POST /project`: Create a new project (requires authentication).
+- `GET /project`: Get a paginated list of projects (requires authentication).
+- `GET /project/:id`: Get a project by ID (requires authentication).
+- `PATCH /project/:id`: Update a project by ID (requires authentication).
+- `DELETE /project/:id`: Delete a project by ID (requires authentication).
+- `POST /project/:id/members`: Add members to a project (requires authentication).
+
+### Task Endpoints
+
+- `POST /task`: Create a new task (requires authentication).
+- `GET /task`: Get a paginated list of tasks (requires authentication).
+- `GET /task/:id`: Get a task by ID (requires authentication).
+- `PATCH /task/:id`: Update a task by ID (requires authentication).
+- `DELETE /task/:id`: Delete a task by ID (requires authentication).
+- `POST /task/:id/tags`: Add tags to a task (requires authentication).
+- `POST /task/:id/assignee`: Add an assignee to a task (requires authentication).
+
+### Tag Endpoints
+
+- `POST /tag`: Create a new tag (requires authentication).
+- `GET /tag`: Get a paginated list of tags (requires authentication).
+- `GET /tag/:id`: Get a tag by ID (requires authentication).
+- `PATCH /tag/:id`: Update a tag by ID (requires authentication).
+- `DELETE /tag/:id`: Delete a tag by ID (requires authentication).
+
+This README provides a comprehensive overview of the application, including setup instructions, authentication details, endpoint descriptions, and information about logging and API documentation.
