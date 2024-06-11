@@ -82,5 +82,3 @@ The documentation for the endpoints can be found at `http://localhost:3000/api-d
 - `GET /tag/:id`: Get a tag by ID (requires authentication).
 - `PATCH /tag/:id`: Update a tag by ID (requires authentication).
 - `DELETE /tag/:id`: Delete a tag by ID (requires authentication).
-
-This README provides a comprehensive overview of the application, including setup instructions, authentication details, endpoint descriptions, and information about logging and API documentation.
