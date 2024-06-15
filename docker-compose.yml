@@ -13,19 +13,32 @@ services:
     ports:
       - "5432:5432"
 
-  app:
-    build: .
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     networks:
       - tasks-postgres
     depends_on:
-      postgres:
-          condition: service_healthy
+      - postgres
     environment:
       DATABASE_URL: postgresql://postgres:1q2w3e4r@postgres:5432/postgres?schema=tasks
       SECRET: 0123456789ABCDEF0123456789ABCDEF
 
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - tasks-postgres
+    depends_on:
+      - backend
+
 networks:
   tasks-postgres:
     driver: bridge
+
