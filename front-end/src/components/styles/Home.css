@@ -1,22 +1,24 @@
 .home-page {
     display: flex;
     height: 100vh;
+    overflow: hidden
 }
 
 .sidebar {
-    width: 250px; /* Fixed width for the sidebar */
-    position: fixed; /* Fixed position on the left */
+    width: 250px;
+    position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    background-color: #333333; /* Dark background for sidebar */
-    color: #ffffff; /* White text */
+    background-color: #333333;
+    color: #ffffff;
     padding: 20px;
     border-right: 1px solid #555555;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Adjust as needed */
     align-items: center;
+    z-index: 1;
 }
 
 .user-info {
@@ -42,20 +44,19 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #ffffff; /* White text for buttons */
+    color: #ffffff;
     text-decoration: none;
 }
 
 .project-list ul li button img {
-    width: 24px; /* Adjust size as needed */
+    width: 24px;
     height: 28px;
     margin-right: 10px;
-    margin-top: 0;
     fill: white;
 }
 
 .new-project-button {
-    margin-top: auto; /* Push button to bottom of sidebar */
+    margin-top: auto;
 }
 
 .button {
@@ -79,21 +80,77 @@
 .content {
     flex: 1;
     padding: 20px;
-    margin-left: 250px; /* Adjust margin to account for sidebar width */
-    background-color: #f0f0f0; /* Light background for content area */
-    color: #333333; /* Dark text for content */
-    overflow-y: auto; /* Allow content to scroll if necessary */
+    background-color: #f0f0f0;
+    color: #333333;
+    margin-left: 400px; /* Width of the sidebar */
+    width: calc(100vw - 250px); /* Full viewport width minus sidebar width */
+    z-index: 0; /* Ensure content is behind sidebar */
 }
 
 .error-message {
     position: absolute;
-    bottom: 20px; /* Adjust as needed */
-    left: 50%; /* Center horizontally */
+    bottom: 20px;
+    left: 50%;
     transform: translateX(-50%);
-    background-color: #ff4d4f; /* Red background */
-    color: white; /* White text */
-    padding: 10px 20px; /* Padding for spacing */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
-    z-index: 1000; /* Ensure it's above other content */
+    background-color: #ff4d4f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+}
+
+.error-message .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.tasks-container {
+    display: flex;
+    gap: 6vw;
+    margin-top: 30px;
+}
+
+.tasks-column {
+    flex: 1;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    max-width: 300px;
+}
+
+.new-task-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tag {
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    display: inline-block;
+    background-color: #e0e0e0;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.tag.selected {
+    background-color: #007bff;
+    color: white;
 }

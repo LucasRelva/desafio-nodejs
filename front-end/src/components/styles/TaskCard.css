@@ -1,0 +1,91 @@
+.task-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.created-at {
+    font-size: 14px;
+    color: grey;
+    margin-bottom: 8px;
+}
+
+.description {
+    font-size: 16px;
+    color: grey;
+    margin-bottom: 12px;
+}
+
+.tags {
+    margin-bottom: 12px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-right: 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+}
+
+.assignees {
+    font-weight: bold;
+}
+
+.assignee {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.status-dropdown {
+    margin-top: 10px;
+}
+
+.status-dropdown label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.status-dropdown select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.status-dropdown select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.status-dropdown select option {
+    background-color: #fff;
+    color: #333;
+}
+
+.status-dropdown select option:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.status-dropdown select option:checked {
+    background-color: #007bff;
+    color: #fff;
+}
+
