@@ -1,8 +1,7 @@
+# NestJS + Prisma + ReactJS Project Management App
 
-
-# NestJS Project Management App
-
-This is a project management application built with NestJS. The app provides endpoints to manage users, projects, tasks, and tags. Authentication is handled using JWT tokens.
+This is a project management application built with NestJS + Prisma. The api provides endpoints to manage users, projects, tasks, and tags. Authentication is handled using JWT tokens.
+The front-end is built using ReactJS and Along with TypeScript.
 
 ## Features
 
@@ -32,14 +31,23 @@ To run the application, you need Docker and Docker Compose installed on your mac
 2. **Access the application:**
    The application will be accessible at `http://localhost:3000`.
 
-3. **Prisma Seed Command**
+3. **Seed Command for Database**
+
    To seed the database with sample data, you can run the following command when the application starts:
    ```bash
    npx prisma db seed
    ```
    This command will populate the database with sample data. You can choose to run it if you want to have some initial data in your application.
 
+4. **Accessing the Frontend**
 
+   After running Docker Compose, the frontend will be available at `http://localhost:8080`.
+
+5. **Login Credentials for Seeded Data**
+
+   If you run the seed command (`npx prisma db seed`), you can log in with the following credentials:
+   - **Email:** john@example.com
+   - **Password:** password123
 
 ## API Documentation
 

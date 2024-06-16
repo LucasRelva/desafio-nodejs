@@ -4,13 +4,11 @@ import Login from './components/Login';
 import Home from './components/Home';
 
 const App = () => {
-  const isLoggedIn = !!sessionStorage.getItem('accessToken');
-
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/home" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Navigate to="/home" />} />
         </Routes>

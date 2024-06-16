@@ -46,7 +46,6 @@ const Home = () => {
       setUserName(response.name);
     } catch (error) {
       setError('Error fetching user data');
-      navigate('/login');
     }
   };
 
