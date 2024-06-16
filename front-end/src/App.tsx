@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 
 const App = () => {
-  const isLoggedIn = sessionStorage.getItem('accessToken');
+  const isLoggedIn = !!sessionStorage.getItem('accessToken');
 
   return (
     <Router>
@@ -12,7 +12,7 @@ const App = () => {
         <Routes>
           <Route path="/home" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
-          {/* Add other routes here */}
+          <Route path="/" element={<Navigate to="/home" />} />
         </Routes>
       </div>
     </Router>

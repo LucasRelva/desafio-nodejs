@@ -27,6 +27,10 @@ const Login = () => {
         }
     };
 
+    const handleCloseError = () => {
+        setError('');
+    };
+
     return (
       <div className="login-container">
           <h2>Login</h2>
@@ -39,7 +43,12 @@ const Login = () => {
               <input type="password" placeholder="Password" value={password}
                      onChange={(e) => setPassword(e.target.value)} required className="form-input" />
               <button type="submit" className="form-submit">Login</button>
-              {error && <p className="error-message">{error}</p>}
+              {error && (
+                <div className="error-message">
+                    <p>{error}</p>
+                    <button onClick={handleCloseError} className="close-button">X</button>
+                </div>
+              )}
           </form>
       </div>
     );
