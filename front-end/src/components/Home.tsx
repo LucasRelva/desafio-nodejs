@@ -95,6 +95,8 @@ const Home = () => {
   };
 
   const handleCloseProjectModal = () => {
+    setNewProjectDescription('')
+    setNewProjectName('')
     setIsProjectModalOpen(false);
   };
 
