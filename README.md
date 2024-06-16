@@ -33,7 +33,20 @@ To run the application, you need Docker and Docker Compose installed on your mac
 
 3. **Seed Command for Database**
 
-   To seed the database with sample data, you can run the following command when the application starts:
+   To seed the database with sample data, you can run the following command on the container terminal when the application starts:
+
+   ```bash
+   docker ps
+   ```
+
+   ```bash
+   docker exec -it <container_id_or_name> /bin/bash
+   ```
+
+   ```bash
+   cd /usr/src/app
+   ```
+
    ```bash
    npx prisma db seed
    ```
