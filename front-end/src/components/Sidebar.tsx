@@ -1,28 +1,49 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Task } from '../services/taskService.ts';
 
 interface Project {
-    id: number;
-    name: string;
-    taskCount: number;
+  id: number;
+  name: string;
+  description: string;
+  creatorId: number;
+  tasks: Task[];
 }
 
 interface SidebarProps {
-    projects: Project[];
+  userName: string;
+  projects: Project[];
+  onProjectSelect: (projectId: number) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ projects }) => {
-    return (
-        <div className="sidebar">
-            <h2>João Marcos</h2>
-            <ul>
-                {projects.map(project => (
-                    <li key={project.id}>
-                        {project.name} <span>{project.taskCount}</span>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+import projectIcon from '../assets/project-icon.svg';
+
+const Sidebar: React.FC<SidebarProps> = ({ userName, projects, onProjectSelect }) => {
+  return (
+    <div className="sidebar">
+      <div className="user-info">
+        <h3>{userName}</h3>
+      </div>
+      <div className="project-list">
+        <h4>Projects</h4>
+        <ul>
+          {projects.map(project => (
+            <li key={project.id}>
+              <button onClick={() => onProjectSelect(project.id)}>
+                <img src={projectIcon} alt={project.name} />
+                {project.name} -- ( {project.tasks.length} )
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="new-project-button">
+        <Link to="/new-project" className="button">
+          New Project
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;

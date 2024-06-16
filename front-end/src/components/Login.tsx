@@ -1,66 +1,47 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import { useState } from 'react';
+import { login } from '../services/authService.ts';
+import { jwtDecode } from 'jwt-decode';
+import './styles/Login.css'
+import { useNavigate } from "react-router-dom";
 
-interface LoginProps {
-    onLogin: (token: string, userId: string) => void;
-}
-
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+const Login = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleLogin = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleLogin = async () => {
+        try {
+            const response = await login(email, password);
+            const { access_token } = response;
 
-        const response = await fetch('https://api.example.com/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+            const decodedToken = jwtDecode<{ sub: string }>(access_token);
+            const userId = decodedToken.sub;
 
-        if (response.ok) {
-            const data = await response.json();
-            const { token, userId } = data;
-
-            sessionStorage.setItem('token', token);
             sessionStorage.setItem('userId', userId);
+            sessionStorage.setItem('accessToken', access_token);
 
-            onLogin(token, userId);
-            navigate('/');
-        } else {
-            alert('Login failed. Please check your credentials and try again.');
+            navigate('/home');
+        } catch (error) {
+            setError('Invalid email or password. Please try again.');
         }
     };
 
     return (
-        <div className="login-container">
-            <form onSubmit={handleLogin} className="login-form">
-                <h2>Login</h2>
-                <div className="form-group">
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+      <div className="login-container">
+          <h2>Login</h2>
+          <form onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+          }} className="login-form">
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required
+                     className="form-input" />
+              <input type="password" placeholder="Password" value={password}
+                     onChange={(e) => setPassword(e.target.value)} required className="form-input" />
+              <button type="submit" className="form-submit">Login</button>
+              {error && <p className="error-message">{error}</p>}
+          </form>
+      </div>
     );
 };
 
