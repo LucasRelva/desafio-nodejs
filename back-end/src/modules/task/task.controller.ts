@@ -16,6 +16,7 @@ import {
 } from '@nestjs/swagger';
 import { AddTagsDto } from './dto/add-tags.dto';
 import { AddAssigneeDto } from './dto/add-assignee.dto';
+import { TaskStatus } from '@prisma/client';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -41,11 +42,12 @@ export class TaskController {
   @ApiBearerAuth()
   @ApiQuery({ name: 'page', required: true, description: 'Page number', type: Number })
   @ApiQuery({ name: 'size', required: true, description: 'Page size', type: Number })
+  @ApiQuery({ name: 'status', required: false, description: 'Task status', type: String })
   @ApiResponse({ type: PaginatedTaskDto, status: HttpStatus.OK, description: 'Successfully fetched tasks.' })
   @ApiBadRequestResponse({ description: 'Invalid query parameters.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
-  async findAll(@Query('page') page: number, @Query('size') size: number) {
-    return await this.taskService.findAll(page, size);
+  async findAll(@Query('page') page: number, @Query('size') size: number, @Query('status') status: TaskStatus) {
+    return await this.taskService.findAll(page, size, status);
   }
 
   @Get(':id')

@@ -35,11 +35,17 @@ async function main() {
     },
   });
 
-  // Create a project with user1 as creator and add user2 as a member
-  const project = await prisma.project.create({
+  const tag3 = await prisma.tag.create({
     data: {
-      name: 'Sample Project',
-      description: 'This is a sample project',
+      title: 'Feature',
+    },
+  });
+
+  // Create projects with user1 as creator and add user2 as a member
+  const project1 = await prisma.project.create({
+    data: {
+      name: 'Sample Project 1',
+      description: 'This is sample project 1',
       creatorId: user1.id,
       members: {
         connect: [{ id: user1.id }, { id: user2.id }],
@@ -47,38 +53,96 @@ async function main() {
     },
   });
 
-  // Create some tasks
-  const task1 = await prisma.task.create({
+  const project2 = await prisma.project.create({
     data: {
-      title: 'Sample Task 1',
-      description: 'This is a sample task 1',
-      status: TaskStatus.PENDING,
-      projectId: project.id,
-      tags: {
-        connect: [{ id: tag1.id }, { id: tag2.id }],
-      },
-      assignees: {
-        connect: [{ id: user1.id }],
+      name: 'Sample Project 2',
+      description: 'This is sample project 2',
+      creatorId: user1.id,
+      members: {
+        connect: [{ id: user1.id }, { id: user2.id }],
       },
     },
   });
 
-  const task2 = await prisma.task.create({
+  const project3 = await prisma.project.create({
     data: {
-      title: 'Sample Task 2',
-      description: 'This is a sample task 2',
-      status: TaskStatus.IN_PROGRESS,
-      projectId: project.id,
-      tags: {
-        connect: [{ id: tag1.id }],
-      },
-      assignees: {
-        connect: [{ id: user2.id }],
+      name: 'Sample Project 3',
+      description: 'This is sample project 3',
+      creatorId: user1.id,
+      members: {
+        connect: [{ id: user1.id }, { id: user2.id }],
       },
     },
   });
 
-  console.log({ user1, user2, project, task1, task2, tag1, tag2 });
+  // Create tasks for each project
+  const createTasksForProject = async (projectId: number) => {
+    await prisma.task.create({
+      data: {
+        title: `Task for project ${projectId} - 1`,
+        description: `This is task 1 for project ${projectId}`,
+        status: TaskStatus.PENDING,
+        projectId,
+        tags: {
+          connect: [{ id: tag1.id }, { id: tag2.id }],
+        },
+        assignees: {
+          connect: [{ id: user1.id }],
+        },
+      },
+    });
+
+    await prisma.task.create({
+      data: {
+        title: `Task for project ${projectId} - 2`,
+        description: `This is task 2 for project ${projectId}`,
+        status: TaskStatus.IN_PROGRESS,
+        projectId,
+        tags: {
+          connect: [{ id: tag1.id }],
+        },
+        assignees: {
+          connect: [{ id: user2.id }],
+        },
+      },
+    });
+
+    await prisma.task.create({
+      data: {
+        title: `Task for project ${projectId} - 3`,
+        description: `This is task 3 for project ${projectId}`,
+        status: TaskStatus.COMPLETED,
+        projectId,
+        tags: {
+          connect: [{ id: tag2.id }, { id: tag3.id }],
+        },
+        assignees: {
+          connect: [{ id: user1.id }, { id: user2.id }],
+        },
+      },
+    });
+
+    await prisma.task.create({
+      data: {
+        title: `Task for project ${projectId} - 4`,
+        description: `This is task 4 for project ${projectId}`,
+        status: TaskStatus.PENDING,
+        projectId,
+        tags: {
+          connect: [{ id: tag3.id }],
+        },
+        assignees: {
+          connect: [{ id: user1.id }],
+        },
+      },
+    });
+  };
+
+  await createTasksForProject(project1.id);
+  await createTasksForProject(project2.id);
+  await createTasksForProject(project3.id);
+
+  console.log({ user1, user2, project1, project2, project3, tag1, tag2, tag3 });
 }
 
 main()

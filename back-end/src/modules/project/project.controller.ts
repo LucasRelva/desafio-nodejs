@@ -40,11 +40,12 @@ export class ProjectController {
   @ApiBearerAuth()
   @ApiQuery({ name: 'page', required: true, description: 'Page number', type: Number })
   @ApiQuery({ name: 'size', required: true, description: 'Page size', type: Number })
+  @ApiQuery({ name: 'creatorId', required: false, description: 'Creator id', type: Number })
   @ApiResponse({ type: PaginatedProjectDto, status: HttpStatus.OK, description: 'Successfully fetched projects.' })
   @ApiBadRequestResponse({ description: 'Invalid query parameters.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
-  async findAll(@Query('page') page: number, @Query('size') size: number) {
-    return await this.projectService.findAll(page, size);
+  async findAll(@Query('page') page: number, @Query('size') size: number, @Query('creatorId') creatorId: number) {
+    return await this.projectService.findAll(page, size, +creatorId);
   }
 
   @Get(':id')

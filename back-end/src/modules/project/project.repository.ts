@@ -1,5 +1,5 @@
 import { PrismaService } from '../../prisma.service';
-import { Project } from '@prisma/client';
+import { Prisma, Project } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 
@@ -8,13 +8,29 @@ export class ProjectRepository {
   constructor(private prisma: PrismaService) {
   }
 
-  async getProjects(page: number, pageSize: number): Promise<Project[]> {
+  async getProjects(page: number, pageSize: number, creatorId: number): Promise<Project[]> {
     try {
       pageSize = parseInt(pageSize as any, 10);
       const offset = (page - 1) * pageSize;
+
+      let where: Prisma.ProjectWhereInput = {};
+
+      if (creatorId) {
+        where = {
+          ...where,
+          creatorId: {
+            equals: creatorId,
+          },
+        };
+      }
+
       return await this.prisma.project.findMany({
         take: pageSize,
         skip: offset,
+        include: {
+          tasks: true,
+        },
+        where
       });
     } catch (error) {
       console.error('Error occurred while fetching projects:', error);

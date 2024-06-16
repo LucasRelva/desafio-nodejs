@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AddTagsDto } from './dto/add-tags.dto';
 import { UserService } from '../user/user.service';
 import { AddAssigneeDto } from './dto/add-assignee.dto';
+import { TaskStatus } from '@prisma/client';
 
 @Injectable()
 export class TaskService {
@@ -18,13 +19,13 @@ export class TaskService {
     private readonly userService: UserService,
   ) {}
 
-  async findAll(page: number, pageSize: number): Promise<PaginatedTaskDto> {
+  async findAll(page: number, pageSize: number, status: TaskStatus): Promise<PaginatedTaskDto> {
     if (page <= 0) {
       this.logger.error('Invalid page number');
       throw new BadRequestException('Invalid page number');
     }
 
-    const tasks = await this.taskRepository.findAllTasks(page, pageSize);
+    const tasks = await this.taskRepository.findAllTasks(page, pageSize, status);
     this.logger.log(`Fetched ${tasks.length} tasks from page ${page}`);
 
     return {

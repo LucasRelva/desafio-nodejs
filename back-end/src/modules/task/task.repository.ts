@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Task } from '@prisma/client';
+import { Prisma, Task, TaskStatus } from '@prisma/client';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 @Injectable()
@@ -8,13 +8,27 @@ export class TaskRepository {
   constructor(private readonly prisma: PrismaService) {
   }
 
-  async findAllTasks(page: number, pageSize: number): Promise<Task[]> {
+  async findAllTasks(page: number, pageSize: number, status?: TaskStatus): Promise<Task[]> {
     try {
       pageSize = parseInt(pageSize as any, 10);
       const offset = (page - 1) * pageSize;
+
+      let where: Prisma.TaskWhereInput = {};
+
+      if (status) {
+        where = {
+          ...where,
+          status: {
+            equals: status,
+          },
+        };
+      }
+
       return await this.prisma.task.findMany({
         take: pageSize,
         skip: offset,
+        include: { tags: true, assignees: true },
+        where,
       });
 
     } catch (error) {

@@ -38,13 +38,13 @@ export class ProjectService {
     return project;
   }
 
-  async findAll(page: number, size: number): Promise<PaginatedProjectDto> {
+  async findAll(page: number, size: number, creatorId: number): Promise<PaginatedProjectDto> {
     if (page <= 0) {
       this.logger.error('Invalid page number');
       throw new BadRequestException('Invalid page number');
     }
 
-    const response = await this.projectRepository.getProjects(page, size);
+    const response = await this.projectRepository.getProjects(page, size, creatorId);
     this.logger.log(`Fetched ${response.length} projects from page ${page}`);
     return {
       projects: response,

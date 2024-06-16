@@ -52,19 +52,19 @@ describe('ProjectService', () => {
 
       (projectRepository.getProjects as jest.Mock).mockResolvedValue(projects);
 
-      const result = await service.findAll(page, size);
+      const result = await service.findAll(page, size, 1);
 
       expect(result.projects).toEqual(projects);
       expect(result.currentPage).toEqual(page);
       expect(result.pageSize).toEqual(projects.length);
-      expect(projectRepository.getProjects).toHaveBeenCalledWith(page, size);
+      expect(projectRepository.getProjects).toHaveBeenCalledWith(page, size, 1);
     });
 
     it('should throw BadRequestException when page number is invalid', async () => {
       const page = 0;
       const size = 10;
 
-      await expect(service.findAll(page, size)).rejects.toThrow(BadRequestException);
+      await expect(service.findAll(page, size, 1)).rejects.toThrow(BadRequestException);
     });
   });
 

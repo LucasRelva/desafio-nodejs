@@ -57,10 +57,10 @@ describe('TaskController', () => {
 
       (service.findAll as jest.Mock).mockResolvedValue(paginatedTasks);
 
-      const result = await controller.findAll(page, size);
+      const result = await controller.findAll(page, size, 'IN_PROGRESS');
 
       expect(result).toEqual(paginatedTasks);
-      expect(service.findAll).toHaveBeenCalledWith(page, size);
+      expect(service.findAll).toHaveBeenCalledWith(page, size, 'IN_PROGRESS');
     });
   });
 

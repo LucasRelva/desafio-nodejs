@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { AddTagsDto } from './dto/add-tags.dto';
 import { AddAssigneeDto } from './dto/add-assignee.dto';
+import { TaskStatus } from '@prisma/client';
 
 describe('TaskService', () => {
   let service: TaskService;
@@ -65,7 +66,7 @@ describe('TaskService', () => {
 
       (repository.findAllTasks as jest.Mock).mockResolvedValue(tasks);
 
-      const result = await service.findAll(page, size);
+      const result = await service.findAll(page, size, TaskStatus.IN_PROGRESS);
 
       expect(result.tasks).toEqual(tasks);
       expect(result.currentPage).toEqual(page);
@@ -76,7 +77,7 @@ describe('TaskService', () => {
       const page = 0;
       const size = 10;
 
-      await expect(service.findAll(page, size)).rejects.toThrow(BadRequestException);
+      await expect(service.findAll(page, size, TaskStatus.IN_PROGRESS)).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -157,7 +158,7 @@ describe('TaskService', () => {
 
       const result = await service.remove(id);
 
-      expect(result).toEqual({});
+      expect(result).toEqual(undefined);
     });
 
     it('should throw NotFoundException when task is not found', async () => {
@@ -180,7 +181,7 @@ describe('TaskService', () => {
 
       const result = await service.addTagsToTask(taskId, addTagsDto);
 
-      expect(result).toEqual({});
+      expect(result).toEqual(undefined);
     });
 
     it('should throw NotFoundException when task is not found', async () => {

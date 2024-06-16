@@ -53,9 +53,9 @@ describe('ProjectController', () => {
       const page = 1;
       const size = 10;
 
-      await controller.findAll(page, size);
+      await controller.findAll(page, size, 1);
 
-      expect(service.findAll).toHaveBeenCalledWith(page, size);
+      expect(service.findAll).toHaveBeenCalledWith(page, size, 1);
     });
   });
 

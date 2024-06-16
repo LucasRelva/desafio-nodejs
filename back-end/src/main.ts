@@ -11,6 +11,12 @@ async function bootstrap() {
       logger: loggerOptions
     });
 
+  app.enableCors({
+    origin: ['http://localhost:8080', 'http://localhost:5173'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Task Manager API')
     .setVersion('1.0')
