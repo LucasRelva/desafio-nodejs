@@ -32,7 +32,7 @@ services:
       context: ./front-end
       dockerfile: Dockerfile
     ports:
-      - "5173:5173"
+      - "8080:8080"
     networks:
       - tasks-postgres
     depends_on:
