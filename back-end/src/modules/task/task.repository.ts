@@ -8,7 +8,7 @@ export class TaskRepository {
   constructor(private readonly prisma: PrismaService) {
   }
 
-  async findAllTasks(page: number, pageSize: number, status?: TaskStatus): Promise<Task[]> {
+  async findAllTasks(page: number, pageSize: number, status?: TaskStatus, projectId?: number): Promise<Task[]> {
     try {
       pageSize = parseInt(pageSize as any, 10);
       const offset = (page - 1) * pageSize;
@@ -22,6 +22,15 @@ export class TaskRepository {
             equals: status,
           },
         };
+      }
+
+      if (projectId) {
+        where = {
+          ...where,
+          projectId: {
+            equals: projectId,
+          }
+        }
       }
 
       return await this.prisma.task.findMany({

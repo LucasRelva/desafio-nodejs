@@ -43,11 +43,12 @@ export class TaskController {
   @ApiQuery({ name: 'page', required: true, description: 'Page number', type: Number })
   @ApiQuery({ name: 'size', required: true, description: 'Page size', type: Number })
   @ApiQuery({ name: 'status', required: false, description: 'Task status', type: String })
+  @ApiQuery({ name: 'projectId', required: false, description: 'project id', type: Number })
   @ApiResponse({ type: PaginatedTaskDto, status: HttpStatus.OK, description: 'Successfully fetched tasks.' })
   @ApiBadRequestResponse({ description: 'Invalid query parameters.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
-  async findAll(@Query('page') page: number, @Query('size') size: number, @Query('status') status: TaskStatus) {
-    return await this.taskService.findAll(page, size, status);
+  async findAll(@Query('page') page: number, @Query('size') size: number, @Query('status') status: TaskStatus, @Query('projectId') projectId: Number) {
+    return await this.taskService.findAll(page, size, status, +projectId);
   }
 
   @Get(':id')

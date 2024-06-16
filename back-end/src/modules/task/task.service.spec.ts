@@ -66,7 +66,7 @@ describe('TaskService', () => {
 
       (repository.findAllTasks as jest.Mock).mockResolvedValue(tasks);
 
-      const result = await service.findAll(page, size, TaskStatus.IN_PROGRESS);
+      const result = await service.findAll(page, size, TaskStatus.IN_PROGRESS, 1);
 
       expect(result.tasks).toEqual(tasks);
       expect(result.currentPage).toEqual(page);
@@ -77,7 +77,7 @@ describe('TaskService', () => {
       const page = 0;
       const size = 10;
 
-      await expect(service.findAll(page, size, TaskStatus.IN_PROGRESS)).rejects.toThrow(BadRequestException);
+      await expect(service.findAll(page, size, TaskStatus.IN_PROGRESS, 1)).rejects.toThrow(BadRequestException);
     });
   });
 

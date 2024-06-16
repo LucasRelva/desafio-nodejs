@@ -19,13 +19,13 @@ export class TaskService {
     private readonly userService: UserService,
   ) {}
 
-  async findAll(page: number, pageSize: number, status: TaskStatus): Promise<PaginatedTaskDto> {
+  async findAll(page: number, pageSize: number, status: TaskStatus, projectId: number): Promise<PaginatedTaskDto> {
     if (page <= 0) {
       this.logger.error('Invalid page number');
       throw new BadRequestException('Invalid page number');
     }
 
-    const tasks = await this.taskRepository.findAllTasks(page, pageSize, status);
+    const tasks = await this.taskRepository.findAllTasks(page, pageSize, status, projectId);
     this.logger.log(`Fetched ${tasks.length} tasks from page ${page}`);
 
     return {
