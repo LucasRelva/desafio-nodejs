@@ -4,13 +4,20 @@ import NewTaskModal from './NewTaskModal';
 import './styles/Home.css';
 import { fetchUser } from '../services/userService.ts';
 import { useNavigate } from 'react-router-dom';
-import { createProject, fetchProjects, fetchTasksByStatus, Task, updateTaskStatus } from '../services/taskService.ts';
+import {
+  createProject,
+  fetchProjects,
+  fetchTasksByStatus,
+  Project,
+  Task,
+  updateTaskStatus,
+} from '../services/taskService.ts';
 import TaskCard from './TaskCard.tsx';
 
 const Home = () => {
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [userName, setUserName] = useState<string>('');
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(1);
   const [error, setError] = useState('');
   const [pendingTasks, setPendingTasks] = useState<Task[]>([]);
   const [inProgressTasks, setInProgressTasks] = useState<Task[]>([]);

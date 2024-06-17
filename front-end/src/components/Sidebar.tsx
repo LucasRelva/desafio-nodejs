@@ -30,7 +30,10 @@ const Sidebar: React.FC<SidebarProps> = ({ userName, projects, onProjectSelect, 
             <li key={project.id}>
               <button onClick={() => onProjectSelect(project.id)}>
                 <img src={projectIcon} alt={project.name} />
-                {project.name} -- ( {project.tasks.length} )
+                {project.name}
+                <span>
+                  {project.tasks.length}
+                </span>
               </button>
             </li>
           ))}
