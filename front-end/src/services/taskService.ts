@@ -50,7 +50,7 @@ export const fetchTasksByStatus = async (page: number, size: number, projectId: 
         size: size,
         projectId: projectId,
         status: status,
-      }
+      },
     });
     return response.data;
   } catch (error: any) {
@@ -71,11 +71,17 @@ export const fetchProjects = async (page: number, size: number, creatorId: strin
   } catch (error: any) {
     throw error.response?.data?.message || error.message;
   }
-}
+};
 
-export const createTask = async (title: string, description: string, tagIds: number[], projectId: number ): Promise<Task> => {
+export const createTask = async (title: string, description: string, tagIds: number[], projectId: number): Promise<Task> => {
   try {
-    const response = await axiosInstance.post('/tasks', { title, description, status: 'PENDING', projectId, tags: tagIds });
+    const response = await axiosInstance.post('/tasks', {
+      title,
+      description,
+      status: 'PENDING',
+      projectId,
+      tags: tagIds,
+    });
     return response.data;
   } catch (error: any) {
     throw error.response?.data?.message || error.message;
@@ -88,26 +94,26 @@ export const createProject = async (name: string, description: string): Promise<
   } catch (error: any) {
     throw error.response?.data?.message || error.message;
   }
-}
+};
 
 export const fetchTags = async (page: number, size: number): Promise<Tag[]> => {
-    try {
-      const response = await axiosInstance.get('/tags', {
-        params: {
-          page: page,
-          size: size,
-        }
-      })
-      return response.data;
-    } catch (error: any) {
-      throw error.response?.data?.message || error.message;
-    }
-}
+  try {
+    const response = await axiosInstance.get('/tags', {
+      params: {
+        page: page,
+        size: size,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw error.response?.data?.message || error.message;
+  }
+};
 
-export const updateTaskStatus =  async (newStatus: string, taskId: number): Promise<void> => {
+export const updateTaskStatus = async (newStatus: string, taskId: number): Promise<void> => {
   try {
     await axiosInstance.patch(`/tasks/${taskId}`, { status: newStatus });
   } catch (error: any) {
     throw error.response?.data?.message || error.message;
   }
-}
+};

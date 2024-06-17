@@ -5,10 +5,14 @@ import { CreateTaskDto } from './dto/create-task.dto';
 
 @Injectable()
 export class TaskRepository {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
-  async findAllTasks(page: number, pageSize: number, status?: TaskStatus, projectId?: number): Promise<Task[]> {
+  async findAllTasks(
+    page: number,
+    pageSize: number,
+    status?: TaskStatus,
+    projectId?: number,
+  ): Promise<Task[]> {
     try {
       pageSize = parseInt(pageSize as any, 10);
       const offset = (page - 1) * pageSize;
@@ -29,8 +33,8 @@ export class TaskRepository {
           ...where,
           projectId: {
             equals: projectId,
-          }
-        }
+          },
+        };
       }
 
       return await this.prisma.task.findMany({
@@ -39,7 +43,6 @@ export class TaskRepository {
         include: { tags: true, assignees: true },
         where,
       });
-
     } catch (error) {
       console.error('Error occurred while fetching tasks:', error);
       throw error;
@@ -57,7 +60,7 @@ export class TaskRepository {
           status,
           projectId,
           tags: {
-            connect: tags.map(tagId => ({ id: tagId })),
+            connect: tags.map((tagId) => ({ id: tagId })),
           },
         },
         include: {
@@ -70,7 +73,10 @@ export class TaskRepository {
     }
   }
 
-  async checkProjectMembership(projectId: number, userId: number): Promise<boolean> {
+  async checkProjectMembership(
+    projectId: number,
+    userId: number,
+  ): Promise<boolean> {
     const project = await this.prisma.project.findUnique({
       where: { id: projectId },
       include: {
@@ -150,5 +156,4 @@ export class TaskRepository {
       throw error;
     }
   }
-
 }

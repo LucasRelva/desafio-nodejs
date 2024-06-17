@@ -16,8 +16,7 @@ export class HealthController {
     private http: HttpHealthIndicator,
     private readonly disk: DiskHealthIndicator,
     private memory: MemoryHealthIndicator,
-  ) {
-  }
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Check application health' })

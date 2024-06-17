@@ -62,11 +62,19 @@ describe('TaskService', () => {
     it('should return tasks', async () => {
       const page = 1;
       const size = 10;
-      const tasks = [{ id: 1, title: 'Task 1' }, { id: 2, title: 'Task 2' }];
+      const tasks = [
+        { id: 1, title: 'Task 1' },
+        { id: 2, title: 'Task 2' },
+      ];
 
       (repository.findAllTasks as jest.Mock).mockResolvedValue(tasks);
 
-      const result = await service.findAll(page, size, TaskStatus.IN_PROGRESS, 1);
+      const result = await service.findAll(
+        page,
+        size,
+        TaskStatus.IN_PROGRESS,
+        1,
+      );
 
       expect(result.tasks).toEqual(tasks);
       expect(result.currentPage).toEqual(page);
@@ -77,13 +85,21 @@ describe('TaskService', () => {
       const page = 0;
       const size = 10;
 
-      await expect(service.findAll(page, size, TaskStatus.IN_PROGRESS, 1)).rejects.toThrow(BadRequestException);
+      await expect(
+        service.findAll(page, size, TaskStatus.IN_PROGRESS, 1),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 
   describe('create', () => {
     it('should create a task', async () => {
-      const createTaskDto: CreateTaskDto = { title: 'Test Task', projectId: 1, tags: [1, 2], status: 'PENDING', description:  ""};
+      const createTaskDto: CreateTaskDto = {
+        title: 'Test Task',
+        projectId: 1,
+        tags: [1, 2],
+        status: 'PENDING',
+        description: '',
+      };
       const token = 'Bearer token';
 
       (jwtService.decode as jest.Mock).mockReturnValue({ sub: 1 });
@@ -96,11 +112,18 @@ describe('TaskService', () => {
     });
 
     it('should throw BadRequestException if token is missing', async () => {
-      const createTaskDto: CreateTaskDto = { title: 'Test Task', projectId: 1, tags: [1, 2], status: 'PENDING', description:  ""};
+      const createTaskDto: CreateTaskDto = {
+        title: 'Test Task',
+        projectId: 1,
+        tags: [1, 2],
+        status: 'PENDING',
+        description: '',
+      };
 
-      await expect(service.create(createTaskDto, '')).rejects.toThrow(BadRequestException);
+      await expect(service.create(createTaskDto, '')).rejects.toThrow(
+        BadRequestException,
+      );
     });
-
   });
 
   describe('findOne', () => {
@@ -144,9 +167,10 @@ describe('TaskService', () => {
 
       (repository.getTaskById as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.update(id, updateTaskDto)).rejects.toThrow(NotFoundException);
+      await expect(service.update(id, updateTaskDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
-
   });
 
   describe('remove', () => {
@@ -168,7 +192,6 @@ describe('TaskService', () => {
 
       await expect(service.remove(id)).rejects.toThrow(NotFoundException);
     });
-
   });
 
   describe('addTagsToTask', () => {
@@ -190,9 +213,10 @@ describe('TaskService', () => {
 
       (repository.getTaskById as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.addTagsToTask(taskId, addTagsDto)).rejects.toThrow(NotFoundException);
+      await expect(service.addTagsToTask(taskId, addTagsDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
-
   });
 
   describe('addAssignee', () => {
@@ -207,7 +231,5 @@ describe('TaskService', () => {
 
       expect(result).toBeUndefined();
     });
-
   });
 });
-

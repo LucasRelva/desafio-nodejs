@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskRepository } from './task.repository';
@@ -19,13 +24,23 @@ export class TaskService {
     private readonly userService: UserService,
   ) {}
 
-  async findAll(page: number, pageSize: number, status: TaskStatus, projectId: number): Promise<PaginatedTaskDto> {
+  async findAll(
+    page: number,
+    pageSize: number,
+    status: TaskStatus,
+    projectId: number,
+  ): Promise<PaginatedTaskDto> {
     if (page <= 0) {
       this.logger.error('Invalid page number');
       throw new BadRequestException('Invalid page number');
     }
 
-    const tasks = await this.taskRepository.findAllTasks(page, pageSize, status, projectId);
+    const tasks = await this.taskRepository.findAllTasks(
+      page,
+      pageSize,
+      status,
+      projectId,
+    );
     this.logger.log(`Fetched ${tasks.length} tasks from page ${page}`);
 
     return {
@@ -52,7 +67,10 @@ export class TaskService {
       throw new BadRequestException('Invalid token format');
     }
 
-    const isMember = await this.taskRepository.checkProjectMembership(createTaskDto.projectId, userId);
+    const isMember = await this.taskRepository.checkProjectMembership(
+      createTaskDto.projectId,
+      userId,
+    );
     if (!isMember) {
       this.logger.error('Only project members can create tasks');
       throw new BadRequestException('Only project members can create tasks');
@@ -122,11 +140,16 @@ export class TaskService {
     this.logger.log(`Tags added to task with id ${taskId}`);
   }
 
-  async addAssignee(taskId: number, addAssigneeDto: AddAssigneeDto): Promise<void> {
+  async addAssignee(
+    taskId: number,
+    addAssigneeDto: AddAssigneeDto,
+  ): Promise<void> {
     const { userId } = addAssigneeDto;
     const user = await this.userService.findOne(userId);
 
     await this.taskRepository.addAssignee(taskId, user.id);
-    this.logger.log(`User with id ${userId} assigned to task with id ${taskId}`);
+    this.logger.log(
+      `User with id ${userId} assigned to task with id ${taskId}`,
+    );
   }
 }

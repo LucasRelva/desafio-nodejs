@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import NewTaskModal from './NewTaskModal';
 import './styles/Home.css';
@@ -66,9 +66,9 @@ const Home = () => {
         fetchTasksByStatus(1, 1000, projectId, 'COMPLETED'),
       ]);
 
-      setPendingTasks(pendingTasks.tasks)
-      setInProgressTasks(inProgressTasks.tasks)
-      setCompletedTasks(completedTasks.tasks)
+      setPendingTasks(pendingTasks.tasks);
+      setInProgressTasks(inProgressTasks.tasks);
+      setCompletedTasks(completedTasks.tasks);
     } catch (error) {
       setError('Error fetching tasks');
     }
@@ -95,8 +95,8 @@ const Home = () => {
   };
 
   const handleCloseProjectModal = () => {
-    setNewProjectDescription('')
-    setNewProjectName('')
+    setNewProjectDescription('');
+    setNewProjectName('');
     setIsProjectModalOpen(false);
   };
 
@@ -131,7 +131,8 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      <Sidebar userName={userName} projects={projects} onProjectSelect={handleProjectSelect} onOpenModal={handleOpenProjectModal} />
+      <Sidebar userName={userName} projects={projects} onProjectSelect={handleProjectSelect}
+               onOpenModal={handleOpenProjectModal} />
       <div className="content">
         {selectedProjectId && (
           <>
@@ -139,19 +140,19 @@ const Home = () => {
               <div className="tasks-column">
                 <h3>Pending</h3>
                 {pendingTasks.map(task => (
-                    <TaskCard key={task.id} task={task} onUpdateStatus={handleUpdateStatus}/>
+                  <TaskCard key={task.id} task={task} onUpdateStatus={handleUpdateStatus} />
                 ))}
               </div>
               <div className="tasks-column">
                 <h3>In Progress</h3>
                 {inProgressTasks.map(task => (
-                    <TaskCard key={task.id} task={task} onUpdateStatus={handleUpdateStatus}/>
+                  <TaskCard key={task.id} task={task} onUpdateStatus={handleUpdateStatus} />
                 ))}
               </div>
               <div className="tasks-column">
                 <h3>Completed</h3>
                 {completedTasks.map(task => (
-                    <TaskCard key={task.id} task={task} onUpdateStatus={handleUpdateStatus}/>
+                  <TaskCard key={task.id} task={task} onUpdateStatus={handleUpdateStatus} />
                 ))}
               </div>
             </div>

@@ -48,7 +48,10 @@ describe('ProjectService', () => {
     it('should return an array of projects', async () => {
       const page = 1;
       const size = 10;
-      const projects = [{ id: 1, name: 'Project 1' }, { id: 2, name: 'Project 2' }];
+      const projects = [
+        { id: 1, name: 'Project 1' },
+        { id: 2, name: 'Project 2' },
+      ];
 
       (projectRepository.getProjects as jest.Mock).mockResolvedValue(projects);
 
@@ -64,7 +67,9 @@ describe('ProjectService', () => {
       const page = 0;
       const size = 10;
 
-      await expect(service.findAll(page, size, 1)).rejects.toThrow(BadRequestException);
+      await expect(service.findAll(page, size, 1)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
@@ -73,7 +78,9 @@ describe('ProjectService', () => {
       const id = 1;
       const project = { id: 1, name: 'Project 1' };
 
-      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(project);
+      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(
+        project,
+      );
 
       const result = await service.findOne(id);
 
@@ -93,24 +100,39 @@ describe('ProjectService', () => {
   describe('update', () => {
     it('should update a project', async () => {
       const id = 1;
-      const updateProjectDto: UpdateProjectDto = { name: 'Updated Project Name' , description: "Updates Project Description" };
+      const updateProjectDto: UpdateProjectDto = {
+        name: 'Updated Project Name',
+        description: 'Updates Project Description',
+      };
       const project = { id: 1, name: 'Project 1' };
 
-      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(project);
+      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(
+        project,
+      );
       (projectRepository.updateProject as jest.Mock).mockResolvedValue(project);
 
-      await expect(service.update(id, updateProjectDto)).resolves.toEqual(project);
+      await expect(service.update(id, updateProjectDto)).resolves.toEqual(
+        project,
+      );
       expect(projectRepository.getProjectById).toHaveBeenCalledWith(id);
-      expect(projectRepository.updateProject).toHaveBeenCalledWith(id, updateProjectDto);
+      expect(projectRepository.updateProject).toHaveBeenCalledWith(
+        id,
+        updateProjectDto,
+      );
     });
 
     it('should throw NotFoundException when project is not found', async () => {
       const id = 999;
-      const updateProjectDto: UpdateProjectDto = { name: 'Updated Project Name', description: "Updates Project Description" };
+      const updateProjectDto: UpdateProjectDto = {
+        name: 'Updated Project Name',
+        description: 'Updates Project Description',
+      };
 
       (projectRepository.getProjectById as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.update(id, updateProjectDto)).rejects.toThrow(NotFoundException);
+      await expect(service.update(id, updateProjectDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -119,8 +141,12 @@ describe('ProjectService', () => {
       const id = 1;
       const project = { id: 1, name: 'Project 1' };
 
-      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(project);
-      (projectRepository.deleteProject as jest.Mock).mockResolvedValue(undefined);
+      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(
+        project,
+      );
+      (projectRepository.deleteProject as jest.Mock).mockResolvedValue(
+        undefined,
+      );
 
       await expect(service.remove(id)).resolves.toBeUndefined();
       expect(projectRepository.getProjectById).toHaveBeenCalledWith(id);
@@ -145,20 +171,29 @@ describe('ProjectService', () => {
       const project = { id: 1, name: 'Project 1', creatorId: 1 };
 
       (jwtService.decode as jest.Mock).mockReturnValue(decodedToken);
-      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(project);
+      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(
+        project,
+      );
       (projectRepository.addMembers as jest.Mock).mockResolvedValue(undefined);
 
-      await expect(service.addMembers(projectId, addMembersDto, token)).resolves.toBeUndefined();
+      await expect(
+        service.addMembers(projectId, addMembersDto, token),
+      ).resolves.toBeUndefined();
       expect(jwtService.decode).toHaveBeenCalledWith('token');
       expect(projectRepository.getProjectById).toHaveBeenCalledWith(projectId);
-      expect(projectRepository.addMembers).toHaveBeenCalledWith(projectId, addMembersDto.memberIds);
+      expect(projectRepository.addMembers).toHaveBeenCalledWith(
+        projectId,
+        addMembersDto.memberIds,
+      );
     });
 
     it('should throw BadRequestException when token is not provided', async () => {
       const projectId = 1;
       const addMembersDto: AddMembersDto = { memberIds: [2, 3] };
 
-      await expect(service.addMembers(projectId, addMembersDto, '')).rejects.toThrow(BadRequestException);
+      await expect(
+        service.addMembers(projectId, addMembersDto, ''),
+      ).rejects.toThrow(BadRequestException);
     });
 
     it('should throw BadRequestException when token format is invalid', async () => {
@@ -170,7 +205,9 @@ describe('ProjectService', () => {
         throw new Error();
       });
 
-      await expect(service.addMembers(projectId, addMembersDto, token)).rejects.toThrow(BadRequestException);
+      await expect(
+        service.addMembers(projectId, addMembersDto, token),
+      ).rejects.toThrow(BadRequestException);
     });
 
     it('should throw BadRequestException when user is not the creator of the project', async () => {
@@ -181,9 +218,13 @@ describe('ProjectService', () => {
       const project = { id: 1, name: 'Project 1', creatorId: 1 };
 
       (jwtService.decode as jest.Mock).mockReturnValue(decodedToken);
-      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(project);
+      (projectRepository.getProjectById as jest.Mock).mockResolvedValue(
+        project,
+      );
 
-      await expect(service.addMembers(projectId, addMembersDto, token)).rejects.toThrow(BadRequestException);
+      await expect(
+        service.addMembers(projectId, addMembersDto, token),
+      ).rejects.toThrow(BadRequestException);
     });
   });
-})
+});

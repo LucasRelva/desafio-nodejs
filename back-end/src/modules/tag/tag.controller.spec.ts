@@ -3,7 +3,7 @@ import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { TagRepository } from './tag.repository';
 import { PrismaService } from '../../prisma.service';
 
@@ -14,17 +14,12 @@ describe('TagController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TagController],
-      providers: [
-        TagService,
-        TagRepository,
-        PrismaService,
-      ],
+      providers: [TagService, TagRepository, PrismaService],
     }).compile();
 
     controller = module.get<TagController>(TagController);
     service = module.get<TagService>(TagService);
   });
-
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
@@ -46,9 +41,13 @@ describe('TagController', () => {
     it('should throw BadRequestException when invalid data is provided', async () => {
       const createTagDto: CreateTagDto = { title: '' };
 
-      jest.spyOn(service, 'create').mockRejectedValue(new BadRequestException());
+      jest
+        .spyOn(service, 'create')
+        .mockRejectedValue(new BadRequestException());
 
-      await expect(controller.create(createTagDto)).rejects.toThrow(BadRequestException);
+      await expect(controller.create(createTagDto)).rejects.toThrow(
+        BadRequestException,
+      );
       expect(service.create).toHaveBeenCalledWith(createTagDto);
     });
   });
@@ -57,7 +56,10 @@ describe('TagController', () => {
     it('should return an array of tags', async () => {
       const page = 1;
       const size = 10;
-      const tags = [{ id: 1, title: 'Tag 1' }, { id: 2, title: 'Tag 2' }];
+      const tags = [
+        { id: 1, title: 'Tag 1' },
+        { id: 2, title: 'Tag 2' },
+      ];
 
       jest.spyOn(service, 'findAll').mockResolvedValue(tags);
 
@@ -71,9 +73,13 @@ describe('TagController', () => {
       const page = 0;
       const size = 10;
 
-      jest.spyOn(service, 'findAll').mockRejectedValue(new BadRequestException());
+      jest
+        .spyOn(service, 'findAll')
+        .mockRejectedValue(new BadRequestException());
 
-      await expect(controller.findAll(page, size)).rejects.toThrow(BadRequestException);
+      await expect(controller.findAll(page, size)).rejects.toThrow(
+        BadRequestException,
+      );
       expect(service.findAll).toHaveBeenCalledWith(page, size);
     });
   });
@@ -121,7 +127,9 @@ describe('TagController', () => {
 
       jest.spyOn(service, 'update').mockRejectedValue(new NotFoundException());
 
-      await expect(controller.update(id, updateTagDto)).rejects.toThrow(NotFoundException);
+      await expect(controller.update(id, updateTagDto)).rejects.toThrow(
+        NotFoundException,
+      );
       expect(service.update).toHaveBeenCalledWith(id, updateTagDto);
     });
 
@@ -129,9 +137,13 @@ describe('TagController', () => {
       const id = 1;
       const updateTagDto: UpdateTagDto = { title: '' };
 
-      jest.spyOn(service, 'update').mockRejectedValue(new BadRequestException());
+      jest
+        .spyOn(service, 'update')
+        .mockRejectedValue(new BadRequestException());
 
-      await expect(controller.update(id, updateTagDto)).rejects.toThrow(BadRequestException);
+      await expect(controller.update(id, updateTagDto)).rejects.toThrow(
+        BadRequestException,
+      );
       expect(service.update).toHaveBeenCalledWith(id, updateTagDto);
     });
   });

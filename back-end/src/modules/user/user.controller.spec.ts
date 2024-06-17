@@ -3,7 +3,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HttpStatus, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { LoginDto } from './dto/login.dto';
 
@@ -46,7 +46,11 @@ describe('UserController', () => {
 
   describe('create', () => {
     it('should create a user', async () => {
-      const createUserDto: CreateUserDto = { name: 'test user', email: "email", password: 'password' };
+      const createUserDto: CreateUserDto = {
+        name: 'test user',
+        email: 'email',
+        password: 'password',
+      };
       const createdUser = { id: 1, ...createUserDto };
 
       (userService.create as jest.Mock).mockResolvedValue(createdUser);
@@ -57,17 +61,25 @@ describe('UserController', () => {
     });
 
     it('should handle error when creating a user', async () => {
-      const createUserDto: CreateUserDto = { name: 'test user', email: "email", password: 'password' };
+      const createUserDto: CreateUserDto = {
+        name: 'test user',
+        email: 'email',
+        password: 'password',
+      };
 
-      (userService.create as jest.Mock).mockRejectedValue(new Error('Failed to create user'));
+      (userService.create as jest.Mock).mockRejectedValue(
+        new Error('Failed to create user'),
+      );
 
-      await expect(controller.create(createUserDto)).rejects.toThrow('Failed to create user');
+      await expect(controller.create(createUserDto)).rejects.toThrow(
+        'Failed to create user',
+      );
     });
   });
 
   describe('login', () => {
     it('should return login successful', async () => {
-      const loginDto: LoginDto = { email: "email", password: 'password' };
+      const loginDto: LoginDto = { email: 'email', password: 'password' };
       const user = { id: 1, name: 'test user' };
       const token = 'generated_token';
 
@@ -79,12 +91,16 @@ describe('UserController', () => {
     });
 
     it('should handle error when login fails', async () => {
-      const loginDto: LoginDto = { email: "email", password: 'password' };
+      const loginDto: LoginDto = { email: 'email', password: 'password' };
       const user = { id: 1, username: 'test user' };
 
-      (authService.login as jest.Mock).mockRejectedValue(new Error('Failed to login'));
+      (authService.login as jest.Mock).mockRejectedValue(
+        new Error('Failed to login'),
+      );
 
-      await expect(controller.login({ user })).rejects.toThrow('Failed to login');
+      await expect(controller.login({ user })).rejects.toThrow(
+        'Failed to login',
+      );
     });
   });
 
@@ -92,7 +108,10 @@ describe('UserController', () => {
     it('should return all users', async () => {
       const page = 1;
       const size = 10;
-      const users = [{ id: 1, username: 'user1' }, { id: 2, username: 'user2' }];
+      const users = [
+        { id: 1, username: 'user1' },
+        { id: 2, username: 'user2' },
+      ];
 
       (userService.findAll as jest.Mock).mockResolvedValue(users);
 
@@ -100,7 +119,6 @@ describe('UserController', () => {
 
       expect(result).toEqual(users);
     });
-
   });
 
   describe('findOne', () => {
@@ -118,7 +136,9 @@ describe('UserController', () => {
     it('should handle error when user is not found', async () => {
       const id = '999';
 
-      (userService.findOne as jest.Mock).mockRejectedValue(new NotFoundException());
+      (userService.findOne as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
 
       await expect(controller.findOne(id)).rejects.toThrow(NotFoundException);
     });
@@ -127,7 +147,11 @@ describe('UserController', () => {
   describe('update', () => {
     it('should update a user', async () => {
       const id = '1';
-      const updateUserDto: UpdateUserDto = {  name: 'test user', email: "email", password: 'password' };
+      const updateUserDto: UpdateUserDto = {
+        name: 'test user',
+        email: 'email',
+        password: 'password',
+      };
       const updatedUser = { id: 1, ...updateUserDto };
 
       (userService.update as jest.Mock).mockResolvedValue(updatedUser);
@@ -139,11 +163,19 @@ describe('UserController', () => {
 
     it('should handle error when user is not found', async () => {
       const id = '999';
-      const updateUserDto: UpdateUserDto = { name: 'test user', email: "email", password: 'password' };
+      const updateUserDto: UpdateUserDto = {
+        name: 'test user',
+        email: 'email',
+        password: 'password',
+      };
 
-      (userService.update as jest.Mock).mockRejectedValue(new NotFoundException());
+      (userService.update as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
 
-      await expect(controller.update(id, updateUserDto)).rejects.toThrow(NotFoundException);
+      await expect(controller.update(id, updateUserDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -161,7 +193,9 @@ describe('UserController', () => {
     it('should handle error when user is not found', async () => {
       const id = '999';
 
-      (userService.remove as jest.Mock).mockRejectedValue(new NotFoundException());
+      (userService.remove as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
 
       await expect(controller.remove(id)).rejects.toThrow(NotFoundException);
     });

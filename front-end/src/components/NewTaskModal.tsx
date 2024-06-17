@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles/NewTaskModal.css';
-import { fetchTags, createTask } from '../services/taskService.ts';
+import { createTask, fetchTags } from '../services/taskService.ts';
 
 interface Tag {
   id: number;
@@ -37,7 +37,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({ projectId, isOpen, onClose,
     setSelectedTags(prevSelectedTags =>
       prevSelectedTags.includes(tagId)
         ? prevSelectedTags.filter(id => id !== tagId)
-        : [...prevSelectedTags, tagId]
+        : [...prevSelectedTags, tagId],
     );
   };
 

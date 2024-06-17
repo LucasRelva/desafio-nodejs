@@ -38,13 +38,16 @@ describe('ProjectController', () => {
       const createProjectDto = {
         name: 'John Doe',
         description: 'John Doe',
-        creatorId: 1
+        creatorId: 1,
       };
       const req = { headers: { authorization: 'Bearer token' } };
 
       await controller.create(createProjectDto, req);
 
-      expect(service.create).toHaveBeenCalledWith(createProjectDto, 'Bearer token');
+      expect(service.create).toHaveBeenCalledWith(
+        createProjectDto,
+        'Bearer token',
+      );
     });
   });
 
@@ -85,7 +88,7 @@ describe('ProjectController', () => {
       const id = 1;
       const updateProjectDto = {
         name: 'Updated Project Name',
-        description: 'Updated Project Description'
+        description: 'Updated Project Description',
       };
 
       await controller.update(id, updateProjectDto);
@@ -97,7 +100,7 @@ describe('ProjectController', () => {
       const id = 999;
       const updateProjectDto = {
         name: 'Updated Project Name',
-        description: 'Updated Project Description'
+        description: 'Updated Project Description',
       };
       const errorMessage = `Project with id ${id} not found`;
 
@@ -105,7 +108,9 @@ describe('ProjectController', () => {
         throw new NotFoundException(errorMessage);
       });
 
-      await expect(controller.update(id, updateProjectDto)).rejects.toThrow(errorMessage);
+      await expect(controller.update(id, updateProjectDto)).rejects.toThrow(
+        errorMessage,
+      );
     });
   });
 
@@ -134,19 +139,23 @@ describe('ProjectController', () => {
     it('should add members to a project', async () => {
       const id = 1;
       const addMembersDto = {
-        memberIds: [1, 2]
+        memberIds: [1, 2],
       };
       const req = { headers: { authorization: 'Bearer token' } };
 
       await controller.addMembers(id, addMembersDto, req);
 
-      expect(service.addMembers).toHaveBeenCalledWith(id, addMembersDto, 'Bearer token');
+      expect(service.addMembers).toHaveBeenCalledWith(
+        id,
+        addMembersDto,
+        'Bearer token',
+      );
     });
 
     it('should throw an error when project is not found', async () => {
       const id = 999;
       const addMembersDto = {
-        memberIds: [1, 2]
+        memberIds: [1, 2],
       };
       const errorMessage = `Project with id ${id} not found`;
       const req = { headers: { authorization: 'Bearer token' } };
@@ -155,7 +164,9 @@ describe('ProjectController', () => {
         throw new NotFoundException(errorMessage);
       });
 
-      await expect(controller.addMembers(id, addMembersDto, req)).rejects.toThrow(errorMessage);
+      await expect(
+        controller.addMembers(id, addMembersDto, req),
+      ).rejects.toThrow(errorMessage);
     });
   });
 });

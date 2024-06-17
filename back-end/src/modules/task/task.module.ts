@@ -9,7 +9,13 @@ import { UserRepository } from '../user/user.repository';
 
 @Module({
   controllers: [TaskController],
-  providers: [TaskService, TaskRepository, PrismaService, JwtService, UserService, UserRepository],
+  providers: [
+    TaskService,
+    TaskRepository,
+    PrismaService,
+    JwtService,
+    UserService,
+    UserRepository,
+  ],
 })
-export class TaskModule {
-}
+export class TaskModule {}

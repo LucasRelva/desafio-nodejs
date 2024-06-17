@@ -1,5 +1,6 @@
 import React from 'react';
 import { Task } from '../services/taskService.ts';
+import projectIcon from '../assets/project-icon.svg';
 
 interface Project {
   id: number;
@@ -15,8 +16,6 @@ interface SidebarProps {
   onProjectSelect: (projectId: number) => void;
   onOpenModal: () => void; // Function to open modal
 }
-
-import projectIcon from '../assets/project-icon.svg';
 
 const Sidebar: React.FC<SidebarProps> = ({ userName, projects, onProjectSelect, onOpenModal }) => {
   return (

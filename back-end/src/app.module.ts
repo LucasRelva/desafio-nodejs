@@ -8,9 +8,16 @@ import { PrismaModule } from './prisma.module';
 import { HealthModule } from './modules/health/health.module';
 
 @Module({
-  imports: [UserModule, ProjectModule, TaskModule, TagModule, AuthModule, PrismaModule, HealthModule],
+  imports: [
+    UserModule,
+    ProjectModule,
+    TaskModule,
+    TagModule,
+    AuthModule,
+    PrismaModule,
+    HealthModule,
+  ],
   controllers: [],
   providers: [],
 })
-export class AppModule {
-}
+export class AppModule {}

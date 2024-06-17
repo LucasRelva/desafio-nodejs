@@ -40,12 +40,21 @@ describe('TaskController', () => {
 
   describe('create', () => {
     it('should create a task', async () => {
-      const createTaskDto: CreateTaskDto = { title: 'Test Task', description: 'Test Description', status:  'PENDING', projectId: 1, tags: [1, 2]};
+      const createTaskDto: CreateTaskDto = {
+        title: 'Test Task',
+        description: 'Test Description',
+        status: 'PENDING',
+        projectId: 1,
+        tags: [1, 2],
+      };
       const req = { headers: { authorization: 'Bearer token' } };
 
       await controller.create(createTaskDto, req);
 
-      expect(service.create).toHaveBeenCalledWith(createTaskDto, req.headers.authorization);
+      expect(service.create).toHaveBeenCalledWith(
+        createTaskDto,
+        req.headers.authorization,
+      );
     });
   });
 
@@ -60,7 +69,12 @@ describe('TaskController', () => {
       const result = await controller.findAll(page, size, 'IN_PROGRESS', 1);
 
       expect(result).toEqual(paginatedTasks);
-      expect(service.findAll).toHaveBeenCalledWith(page, size, 'IN_PROGRESS', 1);
+      expect(service.findAll).toHaveBeenCalledWith(
+        page,
+        size,
+        'IN_PROGRESS',
+        1,
+      );
     });
   });
 
@@ -89,7 +103,10 @@ describe('TaskController', () => {
   describe('update', () => {
     it('should update a task', async () => {
       const id = 1;
-      const updateTaskDto: UpdateTaskDto = { title: 'Updated Task', description: 'Updated Description' };
+      const updateTaskDto: UpdateTaskDto = {
+        title: 'Updated Task',
+        description: 'Updated Description',
+      };
 
       await controller.update(id, updateTaskDto);
 
@@ -98,11 +115,16 @@ describe('TaskController', () => {
 
     it('should throw an error when task is not found', async () => {
       const id = 999;
-      const updateTaskDto: UpdateTaskDto = { title: 'Updated Task', description: 'Updated Description' };
+      const updateTaskDto: UpdateTaskDto = {
+        title: 'Updated Task',
+        description: 'Updated Description',
+      };
 
       (service.update as jest.Mock).mockRejectedValue(new NotFoundException());
 
-      await expect(controller.update(id, updateTaskDto)).rejects.toThrow(NotFoundException);
+      await expect(controller.update(id, updateTaskDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -138,9 +160,13 @@ describe('TaskController', () => {
       const id = 999;
       const addTagsDto: AddTagsDto = { tagIds: [1, 2] };
 
-      (service.addTagsToTask as jest.Mock).mockRejectedValue(new NotFoundException());
+      (service.addTagsToTask as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
 
-      await expect(controller.addTags(id, addTagsDto)).rejects.toThrow(NotFoundException);
+      await expect(controller.addTags(id, addTagsDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -158,9 +184,13 @@ describe('TaskController', () => {
       const id = 999;
       const addAssigneeDto: AddAssigneeDto = { userId: 1 };
 
-      (service.addAssignee as jest.Mock).mockRejectedValue(new NotFoundException());
+      (service.addAssignee as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
 
-      await expect(controller.addAssignee(id, addAssigneeDto)).rejects.toThrow(NotFoundException);
+      await expect(controller.addAssignee(id, addAssigneeDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

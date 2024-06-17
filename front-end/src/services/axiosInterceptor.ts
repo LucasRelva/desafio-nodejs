@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axiosInstance.interceptors.response.use(
@@ -29,11 +29,11 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      sessionStorage.clear()
+      sessionStorage.clear();
       console.log('Unauthorized error:', error.response.data);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

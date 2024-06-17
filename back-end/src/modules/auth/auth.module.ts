@@ -18,8 +18,13 @@ import process from 'node:process';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, UserService, UserRepository, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    UserService,
+    UserRepository,
+    LocalStrategy,
+    JwtStrategy,
+  ],
   exports: [AuthService],
 })
-export class AuthModule {
-}
+export class AuthModule {}

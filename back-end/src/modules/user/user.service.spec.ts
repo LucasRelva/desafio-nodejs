@@ -6,7 +6,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { PaginatedUserDto } from './dto/paginated-user.dto';
 import { SimpleUserDto } from './dto/simple-user.dto';
-import * as bcrypt from 'bcrypt';
 
 jest.mock('bcrypt', () => ({
   async hash(password: string, saltOrRounds: number): Promise<string> {
@@ -46,7 +45,11 @@ describe('UserService', () => {
 
   describe('create', () => {
     it('should create a user', async () => {
-      const createUserDto: CreateUserDto = { name: "Test user", email: 'test@test.com', password: 'password' };
+      const createUserDto: CreateUserDto = {
+        name: 'Test user',
+        email: 'test@test.com',
+        password: 'password',
+      };
       const createdUser = { id: 1, ...createUserDto };
       const hashedPassword = 'hashedPassword';
 
@@ -55,16 +58,27 @@ describe('UserService', () => {
 
       const result = await service.create(createUserDto);
 
-      expect(result).toEqual(new SimpleUserDto(createdUser.id, createdUser.name, createdUser.email));
-      expect(repository.createUser).toHaveBeenCalledWith({ ...createUserDto, password: hashedPassword });
+      expect(result).toEqual(
+        new SimpleUserDto(createdUser.id, createdUser.name, createdUser.email),
+      );
+      expect(repository.createUser).toHaveBeenCalledWith({
+        ...createUserDto,
+        password: hashedPassword,
+      });
     });
 
     it('should throw BadRequestException when user email already exists', async () => {
-      const createUserDto: CreateUserDto = {  name: "Test user", email: 'test@test.com', password: 'password' };
+      const createUserDto: CreateUserDto = {
+        name: 'Test user',
+        email: 'test@test.com',
+        password: 'password',
+      };
 
       (repository.getUserByEmail as jest.Mock).mockResolvedValue(createUserDto);
 
-      await expect(service.create(createUserDto)).rejects.toThrow(BadRequestException);
+      await expect(service.create(createUserDto)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
@@ -72,9 +86,18 @@ describe('UserService', () => {
     it('should return all users', async () => {
       const page = 1;
       const size = 10;
-      const users = [{ id: 1, name: "Test user 1", email: 'user1@test.com' }, { id: 2, name: "Test user 2", email: 'user2@test.com' }];
+      const users = [
+        { id: 1, name: 'Test user 1', email: 'user1@test.com' },
+        {
+          id: 2,
+          name: 'Test user 2',
+          email: 'user2@test.com',
+        },
+      ];
       const paginatedResponse: PaginatedUserDto = {
-        users: users.map(user => new SimpleUserDto(user.id, user.name, user.email)),
+        users: users.map(
+          (user) => new SimpleUserDto(user.id, user.name, user.email),
+        ),
         currentPage: page,
         pageSize: users.length,
       };
@@ -90,14 +113,16 @@ describe('UserService', () => {
       const page = 0;
       const size = 10;
 
-      await expect(service.findAll(page, size)).rejects.toThrow(BadRequestException);
+      await expect(service.findAll(page, size)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
   describe('findOne', () => {
     it('should return a user', async () => {
       const id = 1;
-      const user = { id, email: 'test@test.com', name: "Test name" };
+      const user = { id, email: 'test@test.com', name: 'Test name' };
 
       (repository.getUserById as jest.Mock).mockResolvedValue(user);
 
@@ -118,7 +143,11 @@ describe('UserService', () => {
   describe('update', () => {
     it('should update a user', async () => {
       const id = 1;
-      const updateUserDto: UpdateUserDto = { email: 'updated@test.com', name: "test name", password: "password" };
+      const updateUserDto: UpdateUserDto = {
+        email: 'updated@test.com',
+        name: 'test name',
+        password: 'password',
+      };
       const updatedUser = { id, ...updateUserDto };
 
       (repository.getUserById as jest.Mock).mockResolvedValue(updatedUser);
@@ -126,16 +155,24 @@ describe('UserService', () => {
 
       const result = await service.update(id, updateUserDto);
 
-      expect(result).toEqual(new SimpleUserDto(updatedUser.id, updatedUser.name, updatedUser.email));
+      expect(result).toEqual(
+        new SimpleUserDto(updatedUser.id, updatedUser.name, updatedUser.email),
+      );
     });
 
     it('should throw NotFoundException when user is not found', async () => {
       const id = 999;
-      const updateUserDto: UpdateUserDto = { email: 'updated@test.com', name: "test name", password: "password" };
+      const updateUserDto: UpdateUserDto = {
+        email: 'updated@test.com',
+        name: 'test name',
+        password: 'password',
+      };
 
       (repository.getUserById as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.update(id, updateUserDto)).rejects.toThrow(NotFoundException);
+      await expect(service.update(id, updateUserDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -177,7 +214,9 @@ describe('UserService', () => {
 
       (repository.getUserByEmail as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.getUserByEmail(email)).rejects.toThrow(NotFoundException);
+      await expect(service.getUserByEmail(email)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

@@ -1,6 +1,7 @@
 # NestJS + Prisma + ReactJS Project Management App
 
-This is a project management application built with NestJS + Prisma. The api provides endpoints to manage users, projects, tasks, and tags. Authentication is handled using JWT tokens.
+This is a project management application built with NestJS + Prisma. The api provides endpoints to manage users,
+projects, tasks, and tags. Authentication is handled using JWT tokens.
 The front-end is built using ReactJS and Along with TypeScript.
 
 ## Features
@@ -17,7 +18,8 @@ Logs are saved in the `logs` directory. Both successful operations and errors ar
 
 ## Authentication
 
-Some endpoints require a JWT token for authentication. You can obtain a token by logging in with the `/user/login` endpoint. Use the token in the `Authorization` header as `Bearer <token>` for subsequent requests.
+Some endpoints require a JWT token for authentication. You can obtain a token by logging in with the `/user/login`
+endpoint. Use the token in the `Authorization` header as `Bearer <token>` for subsequent requests.
 
 ## Running the Application
 
@@ -33,7 +35,8 @@ To run the application, you need Docker and Docker Compose installed on your mac
 
 3. **Seed Command for Database**
 
-   To seed the database with sample data, you can run the following command on the container terminal when the application starts:
+   To seed the database with sample data, you can run the following command on the container terminal when the
+   application starts:
 
    ```bash
    docker ps
@@ -50,7 +53,8 @@ To run the application, you need Docker and Docker Compose installed on your mac
    ```bash
    npx prisma db seed
    ```
-   This command will populate the database with sample data. You can choose to run it if you want to have some initial data in your application.
+   This command will populate the database with sample data. You can choose to run it if you want to have some initial
+   data in your application.
 
 4. **Accessing the Frontend**
 
@@ -59,8 +63,8 @@ To run the application, you need Docker and Docker Compose installed on your mac
 5. **Login Credentials for Seeded Data**
 
    If you run the seed command (`npx prisma db seed`), you can log in with the following credentials:
-   - **Email:** john@example.com
-   - **Password:** password123
+    - **Email:** john@example.com
+    - **Password:** password123
 
 ## API Documentation
 

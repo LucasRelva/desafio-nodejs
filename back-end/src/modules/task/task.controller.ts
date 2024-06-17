@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -21,8 +32,7 @@ import { TaskStatus } from '@prisma/client';
 @ApiTags('tasks')
 @Controller('tasks')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {
-  }
+  constructor(private readonly taskService: TaskService) {}
 
   @Post()
   @ApiBody({ type: CreateTaskDto })
@@ -35,26 +45,61 @@ export class TaskController {
   @ApiBadRequestResponse({ description: 'Invalid data.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async create(@Body() createTaskDto: CreateTaskDto, @Request() req) {
-    return await this.taskService.create(createTaskDto, req.headers.authorization);
+    return await this.taskService.create(
+      createTaskDto,
+      req.headers.authorization,
+    );
   }
 
   @Get()
   @ApiBearerAuth()
-  @ApiQuery({ name: 'page', required: true, description: 'Page number', type: Number })
-  @ApiQuery({ name: 'size', required: true, description: 'Page size', type: Number })
-  @ApiQuery({ name: 'status', required: false, description: 'Task status', type: String })
-  @ApiQuery({ name: 'projectId', required: false, description: 'project id', type: Number })
-  @ApiResponse({ type: PaginatedTaskDto, status: HttpStatus.OK, description: 'Successfully fetched tasks.' })
+  @ApiQuery({
+    name: 'page',
+    required: true,
+    description: 'Page number',
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'size',
+    required: true,
+    description: 'Page size',
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    description: 'Task status',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'projectId',
+    required: false,
+    description: 'project id',
+    type: Number,
+  })
+  @ApiResponse({
+    type: PaginatedTaskDto,
+    status: HttpStatus.OK,
+    description: 'Successfully fetched tasks.',
+  })
   @ApiBadRequestResponse({ description: 'Invalid query parameters.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
-  async findAll(@Query('page') page: number, @Query('size') size: number, @Query('status') status: TaskStatus, @Query('projectId') projectId: Number) {
+  async findAll(
+    @Query('page') page: number,
+    @Query('size') size: number,
+    @Query('status') status: TaskStatus,
+    @Query('projectId') projectId: Number,
+  ) {
     return await this.taskService.findAll(page, size, status, +projectId);
   }
 
   @Get(':id')
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'Task ID' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Successfully fetched task.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Successfully fetched task.',
+  })
   @ApiNotFoundResponse({ description: 'Task not found.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async findOne(@Param('id') id: number) {
@@ -65,7 +110,10 @@ export class TaskController {
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'Task ID' })
   @ApiBody({ type: UpdateTaskDto })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Successfully updated task.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Successfully updated task.',
+  })
   @ApiNotFoundResponse({ description: 'Task not found.' })
   @ApiBadRequestResponse({ description: 'Invalid data.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
@@ -76,7 +124,10 @@ export class TaskController {
   @Delete(':id')
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'Task ID' })
-  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Successfully deleted task.' })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Successfully deleted task.',
+  })
   @ApiNotFoundResponse({ description: 'Task not found.' })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async remove(@Param('id') id: number) {
@@ -87,9 +138,14 @@ export class TaskController {
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'Task ID' })
   @ApiBody({ type: AddTagsDto })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Tags successfully added to the task.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Tags successfully added to the task.',
+  })
   @ApiNotFoundResponse({ description: 'Task not found.' })
-  @ApiBadRequestResponse({ description: 'Invalid data or unauthorized action.' })
+  @ApiBadRequestResponse({
+    description: 'Invalid data or unauthorized action.',
+  })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
   async addTags(@Param('id') id: number, @Body() addTagsDto: AddTagsDto) {
     return await this.taskService.addTagsToTask(+id, addTagsDto);
@@ -99,11 +155,19 @@ export class TaskController {
   @ApiBearerAuth()
   @ApiParam({ name: 'id', required: true, description: 'Task ID' })
   @ApiBody({ type: AddAssigneeDto })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Assignee successfully added to the task.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Assignee successfully added to the task.',
+  })
   @ApiNotFoundResponse({ description: 'Task or user not found.' })
-  @ApiBadRequestResponse({ description: 'Invalid data or unauthorized action.' })
+  @ApiBadRequestResponse({
+    description: 'Invalid data or unauthorized action.',
+  })
   @ApiInternalServerErrorResponse({ description: 'Server error.' })
-  async addAssignee(@Param('id') id: number, @Body() addAssigneeDto: AddAssigneeDto) {
+  async addAssignee(
+    @Param('id') id: number,
+    @Body() addAssigneeDto: AddAssigneeDto,
+  ) {
     return await this.taskService.addAssignee(+id, addAssigneeDto);
   }
 }

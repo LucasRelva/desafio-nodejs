@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ProjectRepository } from './project.repository';
@@ -33,18 +38,27 @@ export class ProjectService {
     }
 
     createProjectDto.creatorId = userId;
-    const project = await this.projectRepository.createProject(createProjectDto);
+    const project =
+      await this.projectRepository.createProject(createProjectDto);
     this.logger.log(`Project created successfully with id ${project.id}`);
     return project;
   }
 
-  async findAll(page: number, size: number, creatorId: number): Promise<PaginatedProjectDto> {
+  async findAll(
+    page: number,
+    size: number,
+    creatorId: number,
+  ): Promise<PaginatedProjectDto> {
     if (page <= 0) {
       this.logger.error('Invalid page number');
       throw new BadRequestException('Invalid page number');
     }
 
-    const response = await this.projectRepository.getProjects(page, size, creatorId);
+    const response = await this.projectRepository.getProjects(
+      page,
+      size,
+      creatorId,
+    );
     this.logger.log(`Fetched ${response.length} projects from page ${page}`);
     return {
       projects: response,
@@ -73,7 +87,10 @@ export class ProjectService {
       throw new NotFoundException(`Project with id ${id} not found`);
     }
 
-    const updatedProject = await this.projectRepository.updateProject(id, updateProjectDto);
+    const updatedProject = await this.projectRepository.updateProject(
+      id,
+      updateProjectDto,
+    );
     this.logger.log(`Project with id ${id} updated successfully`);
     return updatedProject;
   }
@@ -90,7 +107,11 @@ export class ProjectService {
     this.logger.log(`Project with id ${id} removed successfully`);
   }
 
-  async addMembers(projectId: number, addMembersDto: AddMembersDto, token: string) {
+  async addMembers(
+    projectId: number,
+    addMembersDto: AddMembersDto,
+    token: string,
+  ) {
     this.validateToken(token);
 
     token = token.split(' ')[1];
@@ -112,8 +133,12 @@ export class ProjectService {
     }
 
     if (project.creatorId !== userId) {
-      this.logger.error(`User with id ${userId} is not the creator of project ${projectId}`);
-      throw new BadRequestException(`Only the creator of the project can add members`);
+      this.logger.error(
+        `User with id ${userId} is not the creator of project ${projectId}`,
+      );
+      throw new BadRequestException(
+        `Only the creator of the project can add members`,
+      );
     }
 
     await this.projectRepository.addMembers(projectId, addMembersDto.memberIds);

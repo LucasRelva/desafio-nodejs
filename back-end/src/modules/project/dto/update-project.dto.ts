@@ -6,5 +6,4 @@ export class UpdateProjectDto {
 
   @ApiProperty()
   description: string;
-
 }

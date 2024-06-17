@@ -4,12 +4,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import passport from 'passport';
 import { loggerOptions } from './logger.service';
 
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,
-    {
-      logger: loggerOptions
-    });
+  const app = await NestFactory.create(AppModule, {
+    logger: loggerOptions,
+  });
 
   app.enableCors({
     origin: ['http://localhost:8080', 'http://localhost:5173'],
@@ -26,11 +24,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser(function (user, done) {
     done(null, user);
   });
 
-  passport.deserializeUser(function(user, done) {
+  passport.deserializeUser(function (user, done) {
     done(null, user);
   });
 

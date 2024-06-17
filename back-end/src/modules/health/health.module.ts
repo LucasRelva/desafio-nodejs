@@ -7,5 +7,4 @@ import { HttpModule } from '@nestjs/axios';
   imports: [TerminusModule, HttpModule],
   controllers: [HealthController],
 })
-export class HealthModule {
-}
+export class HealthModule {}

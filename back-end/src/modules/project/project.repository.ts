@@ -5,10 +5,13 @@ import { CreateProjectDto } from './dto/create-project.dto';
 
 @Injectable()
 export class ProjectRepository {
-  constructor(private prisma: PrismaService) {
-  }
+  constructor(private prisma: PrismaService) {}
 
-  async getProjects(page: number, pageSize: number, creatorId: number): Promise<Project[]> {
+  async getProjects(
+    page: number,
+    pageSize: number,
+    creatorId: number,
+  ): Promise<Project[]> {
     try {
       pageSize = parseInt(pageSize as any, 10);
       const offset = (page - 1) * pageSize;
@@ -30,7 +33,7 @@ export class ProjectRepository {
         include: {
           tasks: true,
         },
-        where
+        where,
       });
     } catch (error) {
       console.error('Error occurred while fetching projects:', error);
@@ -65,7 +68,10 @@ export class ProjectRepository {
     }
   }
 
-  async updateProject(id: number, data: Partial<Project>): Promise<Project | null> {
+  async updateProject(
+    id: number,
+    data: Partial<Project>,
+  ): Promise<Project | null> {
     try {
       return await this.prisma.project.update({
         where: { id },
@@ -88,7 +94,10 @@ export class ProjectRepository {
     }
   }
 
-  async addMembers(projectId: number, memberIds: number[]): Promise<Project | null> {
+  async addMembers(
+    projectId: number,
+    memberIds: number[],
+  ): Promise<Project | null> {
     try {
       return await this.prisma.project.update({
         where: { id: projectId },

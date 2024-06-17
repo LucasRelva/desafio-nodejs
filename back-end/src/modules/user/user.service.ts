@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
@@ -9,23 +14,34 @@ import { SimpleUserDto } from './dto/simple-user.dto';
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
-  constructor(private readonly userRepository: UserRepository) {
-  }
+
+  constructor(private readonly userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const userFound = await this.userRepository.getUserByEmail(createUserDto.email);
+    const userFound = await this.userRepository.getUserByEmail(
+      createUserDto.email,
+    );
 
     if (userFound) {
       this.logger.warn(`User with email ${createUserDto.email} already exists`);
-      throw new BadRequestException(userFound.email, 'There is already a user with this email');
+      throw new BadRequestException(
+        userFound.email,
+        'There is already a user with this email',
+      );
     }
 
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     const createdUser = await this.userRepository.createUser(createUserDto);
 
-    this.logger.log(`User with email ${createUserDto.email} created successfully`);
+    this.logger.log(
+      `User with email ${createUserDto.email} created successfully`,
+    );
 
-    return new SimpleUserDto(createdUser.id, createdUser.name, createdUser.email);
+    return new SimpleUserDto(
+      createdUser.id,
+      createdUser.name,
+      createdUser.email,
+    );
   }
 
   async findAll(page: number, size: number): Promise<PaginatedUserDto> {
@@ -35,7 +51,7 @@ export class UserService {
     }
 
     const response = await this.userRepository.getUsers(page, size);
-    let users = response.map(user => {
+    let users = response.map((user) => {
       const { password, ...userWithoutPassword } = user;
       return userWithoutPassword;
     });

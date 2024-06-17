@@ -38,7 +38,10 @@ describe('TagService', () => {
     it('should return tags', async () => {
       const page = 1;
       const size = 10;
-      const tags = [{ id: 1, title: 'Tag 1' }, { id: 2, title: 'Tag 2' }];
+      const tags = [
+        { id: 1, title: 'Tag 1' },
+        { id: 2, title: 'Tag 2' },
+      ];
 
       (repository.findAllTags as jest.Mock).mockResolvedValue(tags);
 
@@ -92,8 +95,8 @@ describe('TagService', () => {
       const updateTagDto: UpdateTagDto = { title: 'Updated Tag' };
       const updatedTag = { id, ...updateTagDto };
 
-     (repository.getTagById as jest.Mock).mockResolvedValue(updatedTag);
-     (repository.updateTag as jest.Mock).mockResolvedValue(updatedTag);
+      (repository.getTagById as jest.Mock).mockResolvedValue(updatedTag);
+      (repository.updateTag as jest.Mock).mockResolvedValue(updatedTag);
 
       const result = await service.update(id, updateTagDto);
 
@@ -108,7 +111,9 @@ describe('TagService', () => {
 
       (repository.getTagById as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.update(id, updateTagDto)).rejects.toThrow(NotFoundException);
+      await expect(service.update(id, updateTagDto)).rejects.toThrow(
+        NotFoundException,
+      );
       expect(repository.getTagById).toHaveBeenCalledWith(id);
     });
   });
@@ -117,7 +122,7 @@ describe('TagService', () => {
     it('should delete a tag', async () => {
       const id = 1;
 
-     (repository.getTagById as jest.Mock).mockResolvedValue({ id });
+      (repository.getTagById as jest.Mock).mockResolvedValue({ id });
 
       const result = await service.remove(id);
 
