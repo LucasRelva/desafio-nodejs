@@ -32,24 +32,26 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        handleLogin();
-      }} className="login-form">
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required
-               className="form-input" />
-        <input type="password" placeholder="Password" value={password}
-               onChange={(e) => setPassword(e.target.value)} required className="form-input" />
-        <button type="submit" className="form-submit">Login</button>
-        {error && (
-          <div className="error-message">
-            <p>{error}</p>
-            <button onClick={handleCloseError} className="close-button">X</button>
-          </div>
-        )}
-      </form>
+    <div className="login-page">
+      <div className="login-container">
+        <h2>Login</h2>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin();
+        }} className="login-form">
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required
+                 className="form-input" />
+          <input type="password" placeholder="Password" value={password}
+                 onChange={(e) => setPassword(e.target.value)} required className="form-input" />
+          <button type="submit" className="form-submit">Login</button>
+          {error && (
+            <div className="error-message">
+              <p>{error}</p>
+              <button onClick={handleCloseError} className="close-button">X</button>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

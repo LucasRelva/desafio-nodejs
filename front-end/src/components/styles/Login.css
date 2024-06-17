@@ -8,10 +8,17 @@ body {
     background-color: #f0f0f0;
 }
 
+.login-page {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
 .login-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
     width: 90%; /* Adjust width as needed */
@@ -20,6 +27,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    height: 300px;
 }
 
 .login-container h2 {
@@ -29,6 +37,10 @@ body {
 
 .login-form {
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .form-input {
@@ -39,6 +51,13 @@ body {
     border-radius: 4px;
     font-size: 16px;
     box-sizing: border-box;
+    background-color: #fff;
+    color: #1a1a1a;
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: #1a1a1a;
 }
 
 .form-submit {
@@ -51,6 +70,7 @@ body {
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    margin-top: auto;
 }
 
 .form-submit:hover {
